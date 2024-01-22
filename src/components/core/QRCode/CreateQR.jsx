@@ -20,23 +20,23 @@ const CreateQR = ({ item }) => {
                                     }
                                     bgColor={item?.style?.bgColor}
                                     fgColor={item?.style?.patternColor}
-                                    level={`/assets/images/barnd-logo.png` ? 'M' : 'L'}
+                                    // level={`/assets/images/barnd-logo.png` ? 'M' : 'L'}
                                     size={370}
                                     includeMargin={true}
-                                    imageSettings={
-                                        !!item?.logo?.src
-                                            ? {
-                                                src: "/assets/images/barnd-logo.png",
-                                                height: 64,
-                                                width: 64,
-                                                excavate: true,
-                                            }
-                                            : undefined
-                                    }
+                                // imageSettings={
+                                //     !!item?.logo?.src
+                                //         ? {
+                                //             src: "/assets/images/barnd-logo.png",
+                                //             height: 64,
+                                //             width: 64,
+                                //             excavate: true,
+                                //         }
+                                //         : undefined
+                                // }
                                 />
                             </div>
                             <div className="url" style={{ width: "160px" }}>
-                                <Link to="#">{item?.link}/sl/${item?.shortLink}</Link>
+                                <Link to="#">{item?.shortLink}</Link>
                             </div>
                         </div>
 

@@ -36,6 +36,34 @@ const QRCodes = () => {
         return items;
     };
 
+    // handleDownloadPdf for PDF download
+    const handleDownloadPdf = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/qrcode/pdf/${flag}`, {
+                method: 'GET',
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+
+                // Create a download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = flag + '.pdf';
+
+                document.body.appendChild(a);
+                a.click();
+
+                document.body.removeChild(a);
+            } else {
+                console.error('Download failed:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    };
+
     useEffect(() => {
         dispatch(getQRcode({ flag, page: currentPage, pageSize }));
     }, [dispatch, flag, currentPage, pageSize]);
@@ -67,7 +95,7 @@ const QRCodes = () => {
                                 </div>
 
                                 <div className="d-flex justify-content-end mb-3 mx-4">
-                                    <button className="btn btn-sm btn-success">
+                                    <button className="btn btn-sm btn-success" onClick={handleDownloadPdf}>
                                         Download PDF<i className="ml-2 ti ti-download"></i>
                                     </button>
                                 </div>
@@ -79,7 +107,7 @@ const QRCodes = () => {
                         <section id="main-content">
                             <div className="row">
                                 {
-                                    QRdata?.map((item, index) => {
+                                    QRdata?.QRS?.map((item, index) => {
                                         return (
                                             <CreateQR
                                                 key={index}
@@ -93,7 +121,7 @@ const QRCodes = () => {
                                 <div className="col-12 mt-4">
                                     <Pagination>
                                         <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-                                        {generatePaginationItems(5)} {/* Adjust the parameter based on your total number of pages */}
+                                        {generatePaginationItems(QRdata?.QRS_LENGTH)} {/* Adjust the parameter based on your total number of pages */}
                                         <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={QRdata?.length < 10} />
                                     </Pagination>
                                 </div>
