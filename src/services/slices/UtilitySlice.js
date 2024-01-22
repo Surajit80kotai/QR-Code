@@ -1,10 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CREATEQRCODE, GETQRCODE, QRCODETAGS } from "../Api/ApiInstances";
+import toast from "react-hot-toast";
 
 //AsyncThunk For cretae QR code 
 export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data }, { rejectWithValue }) => {
     try {
         const result = await CREATEQRCODE(data);
+        console.log(result?.data);
+        if (result?.data) {
+            toast.success("Tag added successfully..!!", {
+                style: {
+                    background: "black",
+                    color: "white",
+                },
+                iconTheme: {
+                    primary: '#FFF',
+                    secondary: 'green',
+                },
+            });
+        }
         return result?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
@@ -21,15 +35,16 @@ export const getQRcodeTags = createAsyncThunk("/qrcode/tags", async (payload, { 
     }
 });
 
-//AsyncThunk For get QRcode
-export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag }, { rejectWithValue }) => {
+// AsyncThunk For get QRcode
+export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag, page, pageSize }, { rejectWithValue }) => {
     try {
-        const result = await GETQRCODE(flag);
+        const result = await GETQRCODE(flag, page, pageSize);
         return result?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
     }
 });
+
 
 
 
