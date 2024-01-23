@@ -56,7 +56,7 @@ const Taglist = () => {
                                                         <tr>
                                                             <th>Sl</th>
                                                             <th>Tag</th>
-                                                            <th>No OR</th>
+                                                            <th>Number Of OR</th>
                                                             <th>Date</th>
 
                                                         </tr>
