@@ -9,10 +9,12 @@ const Login = () => {
                     <div className="row justify-content-center">
                         <div className="col-lg-6">
                             <div className="login-content">
-                                <div className="login-logo">
-                                    <Link to="/"><img src="/assets/images/shri-lal-mahal-logo.png" alt="" /></Link>
-                                </div>
                                 <div className="login-form">
+                                    <div className="login-logo">
+                                        <Link to="/">
+                                            <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" height="120px" width="120px" />
+                                        </Link>
+                                    </div>
                                     <h4>Administratior Login</h4>
                                     <form>
                                         <div className="form-group">

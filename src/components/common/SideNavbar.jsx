@@ -22,7 +22,7 @@ const SideNavbar = () => {
                         <ul>
                             <div className="logo">
                                 <Link to="/">
-                                    <img src="/assets/images/shri-lal-mahal-logo.png" alt="" className="img-fluid" />
+                                    <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" className="img-fluid" height="130px" width="130px" />
                                 </Link>
                             </div>
 

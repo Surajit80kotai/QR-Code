@@ -3,11 +3,11 @@ import { CREATEQRCODE, GETQRCODE, QRCODETAGS } from "../Api/ApiInstances";
 import toast from "react-hot-toast";
 
 //AsyncThunk For cretae QR code 
-export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data }, { rejectWithValue }) => {
+export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data, navigate }, { rejectWithValue }) => {
     try {
         const result = await CREATEQRCODE(data);
-        console.log(result?.data);
         if (result?.data) {
+            navigate('/taglist');
             toast.success("Tag added successfully..!!", {
                 style: {
                     background: "black",

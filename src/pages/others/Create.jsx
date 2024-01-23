@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { createQRcode } from '../../services/slices/UtilitySlice';
 
 const Create = () => {
@@ -10,6 +10,7 @@ const Create = () => {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,12 +19,18 @@ const Create = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = { ...formData }
-    dispatch(createQRcode({ data }));
+    dispatch(createQRcode({ data, navigate }));
+    setFormData({
+      ...formData,
+      tag: "",
+      count: ""
+    })
   };
 
 
   return (
     <>
+
       <div className="content-wrap">
         <div className="main">
           <div className="container-fluid">

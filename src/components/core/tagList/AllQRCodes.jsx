@@ -6,10 +6,10 @@ import CreateQR from '../QRCode/CreateQR';
 import { Pagination } from 'react-bootstrap';
 
 
-const QRCodes = () => {
+const AllQRCodes = () => {
     // State for current page
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = process.env.REACT_APP_PAGE_SIZE
+    const pageSize = process.env.REACT_APP_PAGE_SIZE;
 
     const { flag } = useParams();
     const dispatch = useDispatch();
@@ -22,17 +22,58 @@ const QRCodes = () => {
     // Function to generate an array of pagination items
     const generatePaginationItems = (totalPages) => {
         const items = [];
-        for (let i = 1; i <= totalPages; i++) {
+        const maxPagesToShow = 15;
+
+        if (totalPages <= maxPagesToShow) {
+            // If total pages are less than or equal to the maximum pages to show, display all pages
+            for (let i = 1; i <= totalPages; i++) {
+                items?.push(
+                    <Pagination.Item
+                        key={i}
+                        active={i === currentPage}
+                        onClick={() => handlePageChange(i)}
+                    >
+                        {i}
+                    </Pagination.Item>
+                );
+            }
+        } else {
+            // If total pages are more than the maximum pages to show, display a subset
+            const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            // Add "First" pagination item
             items?.push(
-                <Pagination.Item
-                    key={i}
-                    active={i === currentPage}
-                    onClick={() => handlePageChange(i)}
-                >
-                    {i}
-                </Pagination.Item>
+                <Pagination.First
+                    key="first"
+                    onClick={() => handlePageChange(1)}
+                    disabled={currentPage === 1}
+                />
+            );
+
+            // Add pagination items for the subset of pages
+            for (let i = startPage; i <= endPage; i++) {
+                items?.push(
+                    <Pagination.Item
+                        key={i}
+                        active={i === currentPage}
+                        onClick={() => handlePageChange(i)}
+                    >
+                        {i}
+                    </Pagination.Item>
+                );
+            }
+
+            // Add "Last" pagination item
+            items?.push(
+                <Pagination.Last
+                    key="last"
+                    onClick={() => handlePageChange(totalPages)}
+                    disabled={currentPage === totalPages}
+                />
             );
         }
+
         return items;
     };
 
@@ -100,9 +141,7 @@ const QRCodes = () => {
                                     </button>
                                 </div>
                             </div>
-
                         </div>
-
 
                         <section id="main-content">
                             <div className="row">
@@ -117,17 +156,23 @@ const QRCodes = () => {
                                     })
                                 }
 
-                                {/* Pagination controls */}
-                                <div className="col-12 mt-4">
-                                    <Pagination>
-                                        <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
-                                        {generatePaginationItems(QRdata?.QRS_LENGTH)} {/* Adjust the parameter based on your total number of pages */}
-                                        <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={QRdata?.length < 10} />
-                                    </Pagination>
-                                </div>
                             </div>
                         </section>
 
+                        {/* Pagination controls */}
+                        <div className="col-12 mt-4">
+                            <Pagination>
+                                <Pagination.Prev
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                />
+                                {generatePaginationItems(QRdata?.QRS_LENGTH)}
+                                <Pagination.Next
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={QRdata?.QRS?.length < pageSize}
+                                />
+                            </Pagination>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,4 +180,4 @@ const QRCodes = () => {
     )
 }
 
-export default QRCodes
+export default AllQRCodes
