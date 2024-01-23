@@ -54,6 +54,7 @@ const UtilitySlice = createSlice({
     initialState: {
         QRdata: null,
         data: null,
+        QRloading: false,
         loading: false,
         error: null,
     },
@@ -66,16 +67,16 @@ const UtilitySlice = createSlice({
         //States for createQRcode
         builder.addCase(createQRcode.pending, (state, { payload }) => {
             state.status = "Loading...";
-            state.loading = true;
+            state.QRloading = true;
         });
         builder.addCase(createQRcode.fulfilled, (state, { payload }) => {
             state.status = "Success";
-            state.loading = false;
+            state.QRloading = false;
             state.QRdata = payload;
         });
         builder.addCase(createQRcode.rejected, (state, { payload }) => {
             state.status = "Failed";
-            state.loading = false;
+            state.QRloading = false;
             state.error = payload;
         });
 

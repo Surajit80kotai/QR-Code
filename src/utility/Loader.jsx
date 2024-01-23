@@ -7,7 +7,9 @@ const Loader = () => {
                 <div className="i-loader-inf-horizontal-container">
                     <div className="i-loader-inf-horizontal"></div>
                     <div className="pt-8px">
-                        <span style={{ fontSize: "14px", fontWeight: "400" }}>Processing...</span>
+                        <span>
+                            Generating QR Codes. It may take some time up to 10 min.
+                        </span>
                     </div>
                 </div>
             </div>

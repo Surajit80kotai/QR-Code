@@ -5,7 +5,7 @@ import Loader from '../../utility/Loader';
 
 const Header = () => {
     const [isHamburgerActive, setIsHamburgerActive] = useState(false);
-    const { loading } = useSelector(state => state.UtilitySlice);
+    const { QRloading } = useSelector(state => state.UtilitySlice);
 
     const toggleHamburger = () => {
         // Toggle body class before updating state
@@ -22,7 +22,7 @@ const Header = () => {
     return (
         <>
             {/* Loader */}
-            {loading && <Loader />}
+            {QRloading && <Loader />}
 
             <div className="header" style={{ marginLeft: isHamburgerActive ? '60px' : '250px' }}>
                 <div className="container-fluid">

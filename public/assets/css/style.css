@@ -5462,7 +5462,7 @@ only screen and (min-resolution: 2dppx) {
   height: 100vh;
   position: absolute;
   z-index: 9999;
-  background: #fff;
+  background: rgba(120, 130, 140, 0.8);
   width: 100%;
 }
 
@@ -5472,7 +5472,7 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .i-loader-inf-horizontal-container span {
-  color: #475161;
+  color: #fff;
   font-family: sans-serif;
   animation: loader-inf-message-pulse 2s infinite;
 }
