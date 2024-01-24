@@ -8,3 +8,5 @@ export const CREATEQRCODE = (data) => API.post('/qrcode/create', data);
 export const QRCODETAGS = () => API.get('/qrcode/tags');
 // get QRcode
 export const GETQRCODE = (flag, page, pageSize) => API.get(`/qrcode/get/${flag}`, { params: { page, pageSize } });
+// get download Pdf
+export const DOWNLOADPDF = (flag) => API.get(`/qrcode/pdf/${flag}`);

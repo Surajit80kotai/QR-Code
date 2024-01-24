@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Loader from '../../utility/Loader';
+import QRLoader from '../../utility/QRLoader';
+import AllPageLoader from '../../utility/AllPageLoader';
 
 const Header = () => {
     const [isHamburgerActive, setIsHamburgerActive] = useState(false);
-    const { QRloading } = useSelector(state => state.UtilitySlice);
+    const { QRloading, loading, isDownloading } = useSelector(state => state.UtilitySlice);
 
     const toggleHamburger = () => {
         // Toggle body class before updating state
@@ -22,7 +23,8 @@ const Header = () => {
     return (
         <>
             {/* Loader */}
-            {QRloading && <Loader />}
+            {QRloading && <QRLoader />}
+            {loading || isDownloading ? <AllPageLoader /> : null}
 
             <div className="header" style={{ marginLeft: isHamburgerActive ? '60px' : '250px' }}>
                 <div className="container-fluid">

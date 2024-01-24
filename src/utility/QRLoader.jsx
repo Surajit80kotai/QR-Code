@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Loader = () => {
+const QRLoader = () => {
     return (
         <>
             <div className="loading-container">
@@ -17,4 +17,4 @@ const Loader = () => {
     )
 }
 
-export default Loader
+export default QRLoader;

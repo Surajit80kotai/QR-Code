@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom'
-import { getQRcode } from '../../../services/slices/UtilitySlice';
+import { getQRcode, setDownloadError, setDownloading } from '../../../services/slices/UtilitySlice';
 import CreateQR from '../QRCode/CreateQR';
 import { Pagination } from 'react-bootstrap';
 
@@ -77,9 +77,11 @@ const AllQRCodes = () => {
         return items;
     };
 
-    // handleDownloadPdf for PDF download
+    // function for download pdf
     const handleDownloadPdf = async () => {
         try {
+            dispatch(setDownloading(true)); // Set the state to indicate that download is in progress
+
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/qrcode/pdf/${flag}`, {
                 method: 'GET',
             });
@@ -87,7 +89,6 @@ const AllQRCodes = () => {
             if (response.ok) {
                 const blob = await response.blob();
 
-                // Create a download link
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -99,9 +100,13 @@ const AllQRCodes = () => {
                 document.body.removeChild(a);
             } else {
                 console.error('Download failed:', response.statusText);
+                dispatch(setDownloadError('Download failed: ' + response.statusText));
             }
         } catch (error) {
             console.error('Error:', error.message);
+            dispatch(setDownloadError('Error: ' + error.message));
+        } finally {
+            dispatch(setDownloading(false)); // Set the state to indicate that download is complete (whether successful or not)
         }
     };
 

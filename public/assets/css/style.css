@@ -5508,3 +5508,62 @@ only screen and (min-resolution: 2dppx) {
 .pt-8px {
   padding-top: 8px;
 }
+
+/* AllPageLoader */
+/* body {
+  background: #34495e;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+} */
+
+.loader {
+  /* background: ra; */
+  position: absolute;
+  top: 20%;
+  left: 60%;
+  z-index: 9999;
+}
+
+.bar,
+.bar2,
+.bar3,
+.bar4 {
+  height: 125px;
+  width: 25px;
+  position: relative;
+  animation: load 1.5s infinite;
+}
+
+@keyframes load {
+  50% {
+    transform: scaleY(1.5);
+  }
+}
+
+.bar {
+  background: #e74c3c;
+  top: 150px;
+  right: 200px;
+}
+
+.bar2 {
+  background: #3498db;
+  top: 30px;
+  right: 150px;
+  animation-delay: 0.3s;
+}
+
+.bar3 {
+  background: #2ecc71;
+  bottom: 90px;
+  right: 100px;
+  animation-delay: 0.6s;
+}
+
+.bar4 {
+  background: #f1c40f;
+  bottom: 210px;
+  right: 50px;
+  animation-delay: 0.9s;
+}
