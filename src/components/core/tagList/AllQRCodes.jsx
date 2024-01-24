@@ -9,6 +9,7 @@ import { Pagination } from 'react-bootstrap';
 const AllQRCodes = () => {
     // State for current page
     const [currentPage, setCurrentPage] = useState(1);
+    const [toogleButton, setToogleButton] = useState(true);
     const pageSize = process.env.REACT_APP_PAGE_SIZE;
 
     const { flag } = useParams();
@@ -110,9 +111,24 @@ const AllQRCodes = () => {
         }
     };
 
+    // refresh function
+    const handlePageRefresh = () => {
+        if (QRdata?.TOTAL_QRS_LENGTH !== QRdata?.TAG_DATA_COUNT) {
+            dispatch(getQRcode({ flag, page: currentPage, pageSize }));
+        }
+    }
+
     useEffect(() => {
         dispatch(getQRcode({ flag, page: currentPage, pageSize }));
     }, [dispatch, flag, currentPage, pageSize]);
+
+    useEffect(() => {
+        if (QRdata?.TOTAL_QRS_LENGTH !== QRdata?.TAG_DATA_COUNT) {
+            setToogleButton(true);
+        } else {
+            setToogleButton(false);
+        }
+    }, [QRdata]);
 
 
     return (
@@ -141,9 +157,17 @@ const AllQRCodes = () => {
                                 </div>
 
                                 <div className="d-flex justify-content-end mb-3 mx-4">
-                                    <button className="btn btn-sm btn-success" onClick={handleDownloadPdf}>
-                                        Download PDF<i className="ml-2 ti ti-download"></i>
-                                    </button>
+                                    {
+                                        toogleButton ?
+                                            <button className="btn btn-sm btn-info" onClick={handlePageRefresh}>
+                                                {`${QRdata?.TOTAL_QRS_LENGTH} QR Generated Please Refresh`}
+                                                <i className="ml-2 ti ti-reload"></i>
+                                            </button>
+                                            :
+                                            <button className="btn btn-sm btn-success" onClick={handleDownloadPdf}>
+                                                Download PDF<i className="ml-2 ti ti-download"></i>
+                                            </button>
+                                    }
                                 </div>
                             </div>
                         </div>
