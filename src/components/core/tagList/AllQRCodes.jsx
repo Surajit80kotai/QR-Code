@@ -191,24 +191,19 @@ const AllQRCodes = () => {
                         </section>
 
                         {/* Pagination controls */}
-                        {
-                            QRdata?.QRS?.length > 0 ?
-                                <div className="col-12 mt-4">
-                                    <Pagination>
-                                        <Pagination.Prev
-                                            onClick={() => handlePageChange(currentPage - 1)}
-                                            disabled={currentPage === 1}
-                                        />
-                                        {generatePaginationItems(Math.ceil(QRdata?.TAG_DATA_COUNT / pageSize))}
-                                        <Pagination.Next
-                                            onClick={() => handlePageChange(currentPage + 1)}
-                                            disabled={QRdata?.QRS?.length < pageSize}
-                                        />
-                                    </Pagination>
-                                </div>
-                                : null
-                        }
-
+                        <div className="col-12 mt-4">
+                            <Pagination>
+                                <Pagination.Prev
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                />
+                                {generatePaginationItems(Math.ceil(QRdata?.TAG_DATA_COUNT / pageSize))}
+                                <Pagination.Next
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={QRdata?.QRS?.length < pageSize}
+                                />
+                            </Pagination>
+                        </div>
                     </div>
                 </div>
             </div>
