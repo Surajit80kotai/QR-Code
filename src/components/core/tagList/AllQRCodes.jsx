@@ -15,6 +15,7 @@ const AllQRCodes = () => {
     const { flag } = useParams();
     const dispatch = useDispatch();
     const { QRdata } = useSelector(state => state.UtilitySlice);
+    // console.log(QRdata);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -22,6 +23,7 @@ const AllQRCodes = () => {
 
     // Function to generate an array of pagination items
     const generatePaginationItems = (totalPages) => {
+        // console.log("totalPages", Math.ceil(totalPages));
         const items = [];
         const maxPagesToShow = 15;
 
@@ -189,19 +191,24 @@ const AllQRCodes = () => {
                         </section>
 
                         {/* Pagination controls */}
-                        <div className="col-12 mt-4">
-                            <Pagination>
-                                <Pagination.Prev
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                />
-                                {generatePaginationItems(QRdata?.QRS_LENGTH)}
-                                <Pagination.Next
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={QRdata?.QRS?.length < pageSize}
-                                />
-                            </Pagination>
-                        </div>
+                        {
+                            QRdata?.QRS?.length > 0 ?
+                                <div className="col-12 mt-4">
+                                    <Pagination>
+                                        <Pagination.Prev
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            disabled={currentPage === 1}
+                                        />
+                                        {generatePaginationItems(Math.ceil(QRdata?.TAG_DATA_COUNT / pageSize))}
+                                        <Pagination.Next
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            disabled={QRdata?.QRS?.length < pageSize}
+                                        />
+                                    </Pagination>
+                                </div>
+                                : null
+                        }
+
                     </div>
                 </div>
             </div>
