@@ -5460,11 +5460,14 @@ only screen and (min-resolution: 2dppx) {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  position: absolute;
+  width: 100vw; /* Use vw for width to cover the entire viewport */
+  position: fixed; /* Use fixed positioning to cover the entire viewport */
+  top: 0;
+  left: 0;
   z-index: 9999;
   background: rgba(120, 130, 140, 0.8);
-  width: 100%;
 }
+
 
 .i-loader-inf-horizontal-container {
   width: 256px;
