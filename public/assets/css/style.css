@@ -5460,8 +5460,10 @@ only screen and (min-resolution: 2dppx) {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100vw; /* Use vw for width to cover the entire viewport */
-  position: fixed; /* Use fixed positioning to cover the entire viewport */
+  width: 100vw;
+  /* Use vw for width to cover the entire viewport */
+  position: fixed;
+  /* Use fixed positioning to cover the entire viewport */
   top: 0;
   left: 0;
   z-index: 9999;
@@ -5569,4 +5571,65 @@ only screen and (min-resolution: 2dppx) {
   bottom: 210px;
   right: 50px;
   animation-delay: 0.9s;
+}
+
+/* Landing */
+
+.contact_info {
+  background: #cd5c16;
+  padding: 0px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.call a {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  display: block;
+
+}
+
+.mail_id a {
+  display: block;
+  background: #ecc204;
+  color: #cd5c16;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 15px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.title_area {
+
+  font-weight: 600;
+  font-size: 26px;
+  color: #000000;
+}
+
+
+.form-label {
+  color: #000000 !important;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.footer {
+  background: #cd5c16;
+  padding: 15px 0;
+}
+
+.foot_lint_title {
+  color: #fff;
+}
+
+.links li {
+  margin: 15px 0;
+}
+
+.links li a {
+  color: #fff;
+
 }
