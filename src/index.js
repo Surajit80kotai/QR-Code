@@ -10,6 +10,7 @@ import Index from './pages/Index';
 import { Provider } from 'react-redux';
 import { Store } from './services/store/Store';
 import { Toaster } from 'react-hot-toast';
+import Landing from './pages/others/Landing';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,9 +20,10 @@ root.render(
         {/* <Route element={<ProtectedOne />}> */}
         <Route path='*' element={<App />} />
         <Route path='/' element={<Index />} />
+        <Route path='/qr1' element={<Landing />} />
         {/* </Route> */}
-        <Route path='/admin/login' element={<Login />} />
-        <Route path='/admin/register' element={<Register />} />
+        <Route path='/qr1/admin/login' element={<Login />} />
+        <Route path='/qr1/admin/register' element={<Register />} />
       </Routes>
     </Router>
     <Toaster

@@ -13,9 +13,9 @@ const PageRoutes = () => {
             <Header />
             <SideNavbar />
             <Routes>
-                <Route path='/create' element={<Create />} />
-                <Route path='/taglist' element={<Taglist />} />
-                <Route path='/QR/codes/:flag' element={<AllQRCodes />} />
+                <Route path='/qr1/create' element={<Create />} />
+                <Route path='/qr1/taglist' element={<Taglist />} />
+                <Route path='/qr1/codes/:flag' element={<AllQRCodes />} />
             </Routes>
             {/* <Footer /> */}
         </>

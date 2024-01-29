@@ -5,8 +5,8 @@ const SideNavbar = () => {
     const [activeLink, setActiveLink] = useState('');
 
     const links = [
-        { id: 'create', text: 'Create', icon: 'ti-home', to: '/create' },
-        { id: 'taglist', text: 'Tag list', icon: 'ti-calendar', to: '/taglist' },
+        { id: 'create', text: 'Create', icon: 'ti-home', to: '/qr1/create' },
+        { id: 'taglist', text: 'Tag list', icon: 'ti-calendar', to: '/qr1/taglist' },
         { id: 'logout', text: 'Logout', icon: 'ti-close', to: '#' },
     ];
 
