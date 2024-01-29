@@ -8,7 +8,7 @@ const ProtectedOne = () => {
     return (
         <>
             {
-                token ? <Outlet /> : <Navigate to='/qr1/admin/login' state={{ form: location }} replace />
+                token ? <Outlet /> : <Navigate to={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/login`} state={{ form: location }} replace />
             }
         </>
     )

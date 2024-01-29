@@ -7,7 +7,7 @@ export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data, na
     try {
         const result = await CREATEQRCODE(data);
         if (result?.data) {
-            navigate('/qr1/taglist');
+            navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/taglist`);
             toast.success("Tag added successfully..!!", {
                 style: {
                     background: "black",

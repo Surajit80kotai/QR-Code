@@ -20,10 +20,10 @@ root.render(
         {/* <Route element={<ProtectedOne />}> */}
         <Route path='*' element={<App />} />
         <Route path='/' element={<Index />} />
-        <Route path='/qr1' element={<Landing />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}`} element={<Landing />} />
         {/* </Route> */}
-        <Route path='/qr1/admin/login' element={<Login />} />
-        <Route path='/qr1/admin/register' element={<Register />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/login`} element={<Login />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/register`} element={<Register />} />
       </Routes>
     </Router>
     <Toaster
