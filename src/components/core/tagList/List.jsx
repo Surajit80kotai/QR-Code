@@ -14,18 +14,18 @@ const List = ({ item, index }) => {
         <>
             <tr >
                 <th scope="row">
-                    <Link to={`/QR/codes/${item?.name}`} >{index + 1}</Link>
+                    <Link to={`/qr1/codes/${item?.name}`} >{index + 1}</Link>
                 </th>
                 <td>
-                    <Link to={`/QR/codes/${item?.name}`} >{item?.name}</Link>
+                    <Link to={`/qr1/codes/${item?.name}`} >{item?.name}</Link>
                 </td>
                 <td>
                     <span className="badge badge-success">
-                        <Link to={`/QR/codes/${item?.name}`} className="text-white">{item?.count}</Link>
+                        <Link to={`/qr1/codes/${item?.name}`} className="text-white">{item?.count}</Link>
                     </span>
                 </td>
                 <td>
-                    <Link to={`/QR/codes/${item?.name}`} >{formattedDate}</Link>
+                    <Link to={`/qr1/codes/${item?.name}`} >{formattedDate}</Link>
                 </td>
             </tr>
         </>
