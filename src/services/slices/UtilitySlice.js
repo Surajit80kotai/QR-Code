@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CREATEQRCODE, DOWNLOADPDF, GETQRCODE, QRCODETAGS } from "../Api/ApiInstances";
+import { CREATEQRCODE, DOWNLOADPDF, GETQRCODE, QRCODETAGS, STOREFEEDBACKDATA } from "../Api/ApiInstances";
 import toast from "react-hot-toast";
 
 //AsyncThunk For cretae QR code 
@@ -60,6 +60,16 @@ export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag }, { r
     }
 });
 
+// AsyncThunk For store feedback data
+export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, uuid }, { rejectWithValue }) => {
+    try {
+        const response = await STOREFEEDBACKDATA(data, uuid);
+        return response?.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
 
 
 
@@ -69,6 +79,7 @@ const UtilitySlice = createSlice({
     initialState: {
         QRdata: null,
         data: null,
+        feedbackData: null,
         QRloading: false,
         loading: false,
         downloadPdfData: null,
@@ -79,6 +90,9 @@ const UtilitySlice = createSlice({
     reducers: {
         clearData: (state) => {
             state.QRdata = null;
+        },
+        clearFeedbackData: (state) => {
+            state.feedbackData = null;
         },
         setDownloading: (state, { payload }) => {
             state.isDownloading = payload;
@@ -151,8 +165,24 @@ const UtilitySlice = createSlice({
             state.loading = false;
             state.error = payload;
         });
+
+        //States for storeFeedbackData
+        builder.addCase(storeFeedbackData.pending, (state, { payload }) => {
+            state.status = "Loading...";
+            state.loading = true;
+        })
+        builder.addCase(storeFeedbackData.fulfilled, (state, { payload }) => {
+            state.status = "Success";
+            state.loading = false;
+            state.feedbackData = payload;
+        })
+        builder.addCase(storeFeedbackData.rejected, (state, { payload }) => {
+            state.status = "Failed";
+            state.loading = false;
+            state.error = payload;
+        });
     }
 })
 
-export const { clearData, setDownloading, setDownloadError } = UtilitySlice.actions;
+export const { clearData, setDownloading, setDownloadError, clearFeedbackData } = UtilitySlice.actions;
 export default UtilitySlice.reducer;

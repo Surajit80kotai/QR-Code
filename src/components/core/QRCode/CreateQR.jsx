@@ -15,7 +15,7 @@ const CreateQR = ({ item }) => {
                                     className={item?.link !== '' ? '' : 'code__qr_disabled'}
                                     value={
                                         item?.shortLink
-                                            ? `${item?.link}/sl/${item?.shortLink}`
+                                            ? `${item?.link}${process.env.REACT_APP_BASE_URL_PREFIX}/fd/${item?.shortLink}`
                                             : item?.link
                                     }
                                     bgColor={item?.style?.bgColor}

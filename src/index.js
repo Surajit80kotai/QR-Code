@@ -10,7 +10,9 @@ import Index from './pages/Index';
 import { Provider } from 'react-redux';
 import { Store } from './services/store/Store';
 import { Toaster } from 'react-hot-toast';
-import Landing from './pages/others/Landing';
+import UserFeedbackForm from './pages/others/UserFeedbackForm';
+import ThankYou from './pages/others/ThankYou';
+import Expired from './pages/others/Expired';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,7 +22,9 @@ root.render(
         {/* <Route element={<ProtectedOne />}> */}
         <Route path='*' element={<App />} />
         <Route path='/' element={<Index />} />
-        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}`} element={<Landing />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/fd/:uuid?`} element={<UserFeedbackForm />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`} element={<ThankYou />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`} element={<Expired />} />
         {/* </Route> */}
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/login`} element={<Login />} />
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/register`} element={<Register />} />
