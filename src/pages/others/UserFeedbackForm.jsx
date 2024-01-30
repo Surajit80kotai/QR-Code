@@ -62,12 +62,12 @@ const UserFeedbackForm = () => {
             <div className="main_container">
                 <div className="container-fluid">
                     {/* <div className="logo_brand d-flex justify-content-center align-item-center mt-2">
-                        <img src="/assets/images/kb.jpeg" alt="" className="img-fluid" width="200px" />
+                        <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" className="img-fluid" width="200px" />
                     </div> */}
 
                     {/* "https://kendriyabhandar.org" */}
                     <div className="logo_brand d-flex justify-content-center align-item-center mt-4 mb-4">
-                        <img src="/assets/images/kb.jpeg" alt="" className="img-fluid" width="500px" />
+                        <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" className="img-fluid" width="500px" />
                     </div>
 
                 </div>
