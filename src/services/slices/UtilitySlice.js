@@ -61,9 +61,12 @@ export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag }, { r
 });
 
 // AsyncThunk For store feedback data
-export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, uuid }, { rejectWithValue }) => {
+export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navigate, uuid }, { rejectWithValue }) => {
     try {
         const response = await STOREFEEDBACKDATA(data, uuid);
+        if (response?.data?.data?.data !== "expired" && response?.data?.data?.flag !== false) {
+            navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`);
+        }
         return response?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);

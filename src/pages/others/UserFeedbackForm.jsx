@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { clearFeedbackData, storeFeedbackData } from '../../services/slices/UtilitySlice';
+import AllPageLoader from '../../utility/AllPageLoader';
 
 const UserFeedbackForm = () => {
     const { uuid } = useParams();
@@ -21,7 +22,7 @@ const UserFeedbackForm = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { feedbackData } = useSelector(state => state.UtilitySlice);
+    const { feedbackData, loading } = useSelector(state => state.UtilitySlice);
 
     const handleChange = (e) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -30,14 +31,12 @@ const UserFeedbackForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = { ...formValues };
-        dispatch(storeFeedbackData({ data, uuid }));
+        dispatch(storeFeedbackData({ data, navigate, uuid }));
     };
 
 
     useEffect(() => {
-        if (feedbackData?.data?.data !== "expired" && feedbackData?.data?.flag !== false) {
-            navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`);
-        } else {
+        if (feedbackData?.data?.data === "expired" && feedbackData?.data?.flag === false) {
             navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`);
         }
 
@@ -48,6 +47,9 @@ const UserFeedbackForm = () => {
 
     return (
         <>
+            {/* loader */}
+            {loading && <AllPageLoader />}
+
             <div className="contact_info">
                 <div className="call">
                     <Link to="tel: +91-1140541648">Call us:- +91-1140541648</Link>
