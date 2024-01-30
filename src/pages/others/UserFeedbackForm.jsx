@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { clearFeedbackData, storeFeedbackData } from '../../services/slices/UtilitySlice';
 import AllPageLoader from '../../utility/AllPageLoader';
 
@@ -50,24 +50,24 @@ const UserFeedbackForm = () => {
             {/* loader */}
             {loading && <AllPageLoader />}
 
-            <div className="contact_info">
+            {/* <div className="contact_info">
                 <div className="call">
                     <Link to="tel: +91-1140541648">Call us:- +91-1140541648</Link>
                 </div>
                 <div className="mail_id">
                     <Link to="mailto:Mail:info@iref.net">Mail:- info@iref.net</Link>
                 </div>
-            </div>
+            </div> */}
 
             <div className="main_container">
                 <div className="container-fluid">
                     {/* <div className="logo_brand d-flex justify-content-center align-item-center mt-2">
-                        <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" className="img-fluid" width="200px" />
+                        <img src="/assets/images/kb.jpeg" alt="" className="img-fluid" width="500px" />
                     </div> */}
 
                     {/* "https://kendriyabhandar.org" */}
                     <div className="logo_brand d-flex justify-content-center align-item-center mt-4 mb-4">
-                        <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" className="img-fluid" width="500px" />
+                        <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" className="img-fluid" width="200px" />
                     </div>
 
                 </div>
@@ -225,8 +225,7 @@ const UserFeedbackForm = () => {
                 </div>
 
                 {/* footer */}
-
-                <footer className="footer mt-5">
+                {/* <footer className="footer mt-5">
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-3">
@@ -286,7 +285,7 @@ const UserFeedbackForm = () => {
                             </div>
                         </div>
                     </div>
-                </footer>
+                </footer> */}
             </div>
         </>
     )

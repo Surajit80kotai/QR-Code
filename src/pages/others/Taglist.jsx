@@ -56,13 +56,13 @@ const Taglist = () => {
                                                         <tr>
                                                             <th>Sl</th>
                                                             <th>Tag</th>
-                                                            <th>Number Of OR</th>
+                                                            <th>Number Of QR</th>
                                                             <th>Date</th>
 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {tagData &&
+                                                        {tagData?.length > 0 &&
                                                             tagData?.map((item, index) => {
                                                                 return (
                                                                     <List
