@@ -15,15 +15,20 @@ const Landing = () => {
 
             <div className="main_container">
                 <div className="container-fluid">
-                    <div className="logo_brand d-flex justify-content-center align-item-center mt-2">
-                        <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" className="img-fluid" width="200px" />
+                    {/* <div className="logo_brand d-flex justify-content-center align-item-center mt-2">
+                        <img src="/assets/images/kb.jpeg" alt="" className="img-fluid" width="200px" />
+                    </div> */}
+
+                    {/* "https://kendriyabhandar.org" */}
+                    <div className="logo_brand d-flex justify-content-center align-item-center mt-4 mb-4">
+                        <img src="/assets/images/kb.jpeg" alt="" className="img-fluid" width="500px" />
                     </div>
+
                 </div>
                 <div className="container mt-5">
                     <div className="form_area">
                         <h6 className="title_area">
-                            Please complete the feedback form to enable us to improve our product experience! For your time you
-                            will get a cash back of Rs 5 on your Aadhar ID/UPI after completing the survey.
+                            Please complete the feedback form to enable us to improve our product experience!
                         </h6>
                         <form action="" method="post">
                             <div className="row mt-5">

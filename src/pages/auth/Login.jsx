@@ -12,7 +12,7 @@ const Login = () => {
                                 <div className="login-form">
                                     <div className="login-logo">
                                         <Link to="/">
-                                            <img src="/assets/images/shri-lal-mahal-logo.jpg" alt="" height="120px" width="120px" />
+                                            <img src="/assets/images/kb.jpeg" alt="" height="120px" width="120px" />
                                         </Link>
                                     </div>
                                     <h4>Administratior Login</h4>

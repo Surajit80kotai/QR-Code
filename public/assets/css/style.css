@@ -3352,9 +3352,14 @@ tbody tr td:last-child {
   font-size: 24px;
 }
 
-.login-logo img {
+/* .login-logo img {
   height: 160px;
   width: 160px;
+} */
+
+.login-logo img {
+  /* height: 160px; */
+  width: 595px
 }
 
 .login-content {
