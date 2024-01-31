@@ -167,7 +167,7 @@ const AllQRCodes = () => {
                                             </button>
                                             :
                                             <button className="btn btn-sm btn-success" onClick={handleDownloadPdf}>
-                                                Download PDF<i className="ml-2 ti ti-download"></i>
+                                                Email PDF<i className="ml-2 ti ti-download"></i>
                                             </button>
                                     }
                                 </div>
