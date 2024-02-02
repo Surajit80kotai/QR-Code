@@ -4,6 +4,7 @@ import Dashboard from '../pages/others/Dashboard';
 import Create from '../pages/others/Create';
 import Taglist from '../pages/others/Taglist';
 import AllQRCodes from '../components/core/tagList/AllQRCodes';
+import ReportPage from '../pages/others/ReportPage';
 
 const PageRoutes = () => {
     return (
@@ -14,6 +15,7 @@ const PageRoutes = () => {
                     <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/create`} element={<Create />} />
                     <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/taglist`} element={<Taglist />} />
                     <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/codes/:flag`} element={<AllQRCodes />} />
+                    <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/report`} element={<ReportPage />} />
                 </Routes>
             </div>
         </>

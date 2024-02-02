@@ -34,6 +34,12 @@ const SideNavbar = () => {
             icon: 'fas fa-list',
             to: `${process.env.REACT_APP_BASE_URL_PREFIX}/taglist`,
         },
+        {
+            id: 'report',
+            text: 'Report',
+            icon: 'fas fa-file-alt',
+            to: `${process.env.REACT_APP_BASE_URL_PREFIX}/report`,
+        },
     ];
 
     const handleLinkClick = (linkId) => {
