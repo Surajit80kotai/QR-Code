@@ -9,6 +9,7 @@ export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data, na
         if (result?.data) {
             navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/taglist`);
             toast.success("Tag added successfully..!!", {
+                duration: 3000,
                 style: {
                     background: "black",
                     color: "white",
@@ -146,16 +147,16 @@ const UtilitySlice = createSlice({
         //States for getQRcode
         builder.addCase(getQRcode.pending, (state, { payload }) => {
             state.status = "Loading...";
-            state.loading = true;
+            state.QRloading = true;
         });
         builder.addCase(getQRcode.fulfilled, (state, { payload }) => {
             state.status = "Success";
-            state.loading = false;
+            state.QRloading = false;
             state.QRdata = payload;
         });
         builder.addCase(getQRcode.rejected, (state, { payload }) => {
             state.status = "Failed";
-            state.loading = false;
+            state.QRloading = false;
             state.error = payload;
         });
 

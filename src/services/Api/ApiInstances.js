@@ -3,6 +3,10 @@ import axios from "axios";
 export const API = axios.create({ baseURL: process.env.REACT_APP_BASE_URL });
 export const api = axios.create({ baseURL: process.env.REACT_APP_NODE_HOST });
 
+// Login api
+export const LOGIN = (data) => API.post('/auth/admin/login', data);
+// Registration api
+export const REGISTRATION = (data) => API.post('/auth/admin/registration', data);
 // create QR code
 export const CREATEQRCODE = (data) => API.post('/qrcode/create', data);
 // get QRcode tags
