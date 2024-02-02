@@ -43,23 +43,15 @@ const Taglist = () => {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="card">
-                            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 className="m-0 font-weight-bold text-primary">Taglist</h6>
-                                <Link to="#" className="btn btn-primary btn-icon-split">
-                                    <span className="icon text-white-50">
-                                        <i className="fas fa-download"></i>
-                                    </span>
-                                    <span className="text">Download</span>
-                                </Link>
-                            </div>
                             <div className="table-responsive p-3">
                                 <table className="table align-items-center table-flush" id="dataTable">
                                     <thead className="thead-light">
                                         <tr>
-                                            <th>SL</th>
+                                            <th>SL. No.</th>
                                             <th>Tag</th>
-                                            <th>No of QR</th>
-                                            <th>Total no Cashback</th>
+                                            <th>Number of QR</th>
+                                            <th>Total On Cashback</th>
+                                            <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
