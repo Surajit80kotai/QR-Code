@@ -115,7 +115,7 @@ const Dashboard = () => {
                             <GoogleMap
                                 mapContainerStyle={mapContainerStyle}
                                 center={center}
-                                zoom={6} // Set your desired initial zoom level
+                                zoom={5} // Set your desired initial zoom level
                             />
                         </LoadScript>
                     </div>

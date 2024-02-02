@@ -6,7 +6,7 @@ const ThankYou = () => {
 
     return (
         <>
-            <div className="vh-100 d-flex justify-content-center align-items-center mt-5">
+            <div className="vh-100 d-flex justify-content-center align-items-center">
                 <div className='shadow-lg p-3 mb-5 bg-body rounded' style={{ width: "800px" }}>
                     <div className="mb-4 text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="text-success bi bi-check-circle-fill" width="75" height="75"
