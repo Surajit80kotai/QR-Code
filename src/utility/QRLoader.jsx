@@ -8,7 +8,7 @@ const QRLoader = () => {
                     <div className="i-loader-inf-horizontal"></div>
                     <div className="pt-8px">
                         <span>
-                            Generating QR Codes. It may take some time up to 10 min.
+                            Generating QR Codes. It May Take Some Time, Please Wait.
                         </span>
                     </div>
                 </div>

@@ -1,73 +1,65 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import QRLoader from '../../utility/QRLoader';
 import AllPageLoader from '../../utility/AllPageLoader';
+import PageRoutes from '../../routes/Page.routes';
 
-const Header = () => {
-    const [isHamburgerActive, setIsHamburgerActive] = useState(false);
+
+const Header = ({ toggleHamburger }) => {
     const { QRloading, loading, isDownloading } = useSelector(state => state.UtilitySlice);
-
-    const toggleHamburger = () => {
-        // Toggle body class before updating state
-        document.body.classList.toggle('sidebar-hide', !isHamburgerActive);
-        document.body.classList.toggle('pace-done', isHamburgerActive);
-
-        // Update state after toggling classes
-        setIsHamburgerActive(!isHamburgerActive);
-    };
-
-    const hamburgerClass = `hamburger sidebar-toggle${isHamburgerActive ? ' is-active' : ''}`;
-
 
     return (
         <>
             {/* Loader */}
-            {QRloading && <QRLoader />}
-            {loading || isDownloading ? <AllPageLoader /> : null}
+            {loading && <QRLoader />}
+            {QRloading || isDownloading ? <AllPageLoader /> : null}
 
-            <div className="header" style={{ marginLeft: isHamburgerActive ? '60px' : '250px' }}>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            {/* Hamburger */}
-                            <div className="float-left">
-                                <div className={hamburgerClass} onClick={toggleHamburger}>
-                                    <span className="line"></span>
-                                    <span className="line"></span>
-                                    <span className="line"></span>
-                                </div>
-                            </div>
+            <div id="content-wrapper" className="d-flex flex-column">
+                <div id="content">
+                    {/* Navbar */}
+                    <nav className="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                        <button id="sidebarToggleTop" onClick={toggleHamburger} className="btn btn-link rounded-circle mr-3">
+                            <i className="fa fa-bars"></i>
+                        </button>
 
-                            <div className="float-right">
-                                <div className="dropdown dib">
-                                    <div className="header-icon" data-toggle="dropdown">
-                                        <span className="user-avatar">John
-                                            <i className="ti-angle-down f-s-10"></i>
-                                        </span>
-                                        <div className="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
-                                            <div className="dropdown-content-body">
-                                                <ul>
-                                                    <li>
-                                                        <Link to="#">
-                                                            <i className="ti-user"></i>
-                                                            <span>Profile</span>
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="#">
-                                                            <i className="ti-power-off"></i>
-                                                            <span>Logout</span>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <ul className="navbar-nav ml-auto">
+
+                            <li className="nav-item dropdown no-arrow">
+                                <Link className="nav-link dropdown-toggle" to="#" id="userDropdown" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <img className="img-profile rounded-circle" src="/assets/img/boy.png" style={{ maxWidth: "60px" }} alt='' />
+                                    <span className="ml-2 d-none d-lg-inline text-white small">Maman Ketoprak</span>
+                                </Link>
+                                <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <Link className="dropdown-item" to="#">
+                                        <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </Link>
+                                    <Link className="dropdown-item" to="#">
+                                        <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Settings
+                                    </Link>
+                                    <Link className="dropdown-item" to="#">
+                                        <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Activity Log
+                                    </Link>
+                                    <div className="dropdown-divider"></div>
+                                    <Link className="dropdown-item" to="#"
+                                    // data-toggle="modal" data-target="#logoutModal"
+                                    >
+                                        <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </Link>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    {/* PAGE CONTENT START*/}
+                    {/* PageRoutes*/}
+                    <PageRoutes />
+                    {/* PAGE CONTENT END*/}
                 </div>
             </div>
         </>

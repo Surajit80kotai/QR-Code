@@ -12,21 +12,22 @@ const List = ({ item, index }) => {
 
     return (
         <>
-            <tr >
-                <th scope="row">
+            <tr>
+                <th>
                     <Link to={`${process.env.REACT_APP_BASE_URL_PREFIX}/codes/${item?.name}`} >{index + 1}</Link>
                 </th>
-                <td>
+                <th>
                     <Link to={`${process.env.REACT_APP_BASE_URL_PREFIX}/codes/${item?.name}`} >{item?.name}</Link>
-                </td>
-                <td>
+                </th>
+                <th>
                     <span className="badge badge-success">
                         <Link to={`${process.env.REACT_APP_BASE_URL_PREFIX}/codes/${item?.name}`} className="text-white">{item?.count}</Link>
                     </span>
-                </td>
-                <td>
+                </th>
+                <th>
                     <Link to={`${process.env.REACT_APP_BASE_URL_PREFIX}/codes/${item?.name}`} >{formattedDate}</Link>
-                </td>
+                </th>
+
             </tr>
         </>
     )

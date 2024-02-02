@@ -1,9 +1,11 @@
-import PageRoutes from "./routes/Page.routes";
+import SideNavbar from "./components/common/SideNavbar";
 
 const App = () => {
   return (
     <>
-      <PageRoutes />
+      <div id="wrapper">
+        <SideNavbar />
+      </div>
     </>
   );
 }

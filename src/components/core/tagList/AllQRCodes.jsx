@@ -142,75 +142,63 @@ const AllQRCodes = () => {
 
     return (
         <>
-            <div className="content-wrap">
-                <div className="main">
-                    <div className="container-fluid">
+            <div className="container-fluid" id="container-wrapper">
+                <div className="d-sm-flex align-items-center justify-content-between mb-4">
+
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><Link to="./">Dashboard</Link></li>
+                        <li className="breadcrumb-item active" aria-current="page">Scan</li>
+                    </ol>
+                    <div>
+                        {
+                            toogleButton ?
+                                <Link to="#" onClick={handlePageRefresh} className="btn btn-info btn-icon-split">
+                                    <span className="icon text-white-50">
+                                        <i className="fas fa-sync-alt"></i>
+                                    </span>
+                                    <span className="text">{`${QRdata?.TOTAL_QRS_LENGTH} QR Generated Please Refresh`}</span>
+                                </Link>
+                                :
+                                <Link to="#" onClick={handleDownloadPdf} className="btn btn-primary btn-icon-split">
+                                    <span className="icon text-white-50">
+                                        <i className="fas fa-download"></i>
+                                    </span>
+                                    <span className="text">Email PDF To Download</span>
+                                </Link>
+                        }
+                    </div>
+
+                </div>
+
+                <div className="row">
+                    <div className="col-lg-12">
                         <div className="row">
-                            <div className="col-lg-8 p-r-0 title-margin-right">
-                                <div className="page-header">
-                                    <div className="page-title d-flex">
-                                        <h1>Taglist</h1>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 p-l-0 title-margin-left">
-                                <div className="page-header">
-                                    <div className="page-title">
-                                        <ol className="breadcrumb">
-                                            <li className="breadcrumb-item"><Link to="#">Taglist</Link></li>
-                                            <li className="breadcrumb-item active">Home</li>
-                                        </ol>
-
-                                    </div>
-                                </div>
-
-                                <div className="d-flex justify-content-end mb-3 mx-4">
-                                    {
-                                        toogleButton ?
-                                            <button className="btn btn-sm btn-info" onClick={handlePageRefresh}>
-                                                {`${QRdata?.TOTAL_QRS_LENGTH} QR Generated Please Refresh`}
-                                                <i className="ml-2 ti ti-reload"></i>
-                                            </button>
-                                            :
-                                            <button className="btn btn-sm btn-success" onClick={handleDownloadPdf}>
-                                                Email PDF<i className="ml-2 ti ti-download"></i>
-                                            </button>
-                                    }
-                                </div>
-                            </div>
+                            {
+                                QRdata?.QRS?.map((item, index) => {
+                                    return (
+                                        <CreateQR
+                                            key={index}
+                                            item={item}
+                                        />
+                                    )
+                                })
+                            }
                         </div>
+                    </div>
 
-                        <section id="main-content">
-                            <div className="row">
-                                {
-                                    QRdata?.QRS?.map((item, index) => {
-                                        return (
-                                            <CreateQR
-                                                key={index}
-                                                item={item}
-                                            />
-                                        )
-                                    })
-                                }
-
-                            </div>
-                        </section>
-
-                        {/* Pagination controls */}
-                        <div className="col-12 mt-4">
-                            <Pagination>
-                                <Pagination.Prev
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                />
-                                {generatePaginationItems(Math.ceil(QRdata?.TAG_DATA_COUNT / pageSize))}
-                                <Pagination.Next
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={QRdata?.QRS?.length < pageSize}
-                                />
-                            </Pagination>
-                        </div>
+                    {/* Pagination */}
+                    <div className="col-12 mt-4">
+                        <Pagination>
+                            <Pagination.Prev
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {generatePaginationItems(Math.ceil(QRdata?.TAG_DATA_COUNT / pageSize))}
+                            <Pagination.Next
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={QRdata?.QRS?.length < pageSize}
+                            />
+                        </Pagination>
                     </div>
                 </div>
             </div>

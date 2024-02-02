@@ -6,7 +6,7 @@ const CreateQR = ({ item }) => {
 
     return (
         <>
-            <div className="col-md-3" >
+            <div className="col-md-3 mb-3">
                 <div className="card">
                     <div className="card-body">
                         <div className="qr_code_area">
@@ -20,23 +20,12 @@ const CreateQR = ({ item }) => {
                                     }
                                     bgColor={item?.style?.bgColor}
                                     fgColor={item?.style?.patternColor}
-                                    // level={`/assets/images/barnd-logo.png` ? 'M' : 'L'}
                                     size={370}
                                     includeMargin={true}
-                                // imageSettings={
-                                //     !!item?.logo?.src
-                                //         ? {
-                                //             src: "/assets/images/barnd-logo.png",
-                                //             height: 64,
-                                //             width: 64,
-                                //             excavate: true,
-                                //         }
-                                //         : undefined
-                                // }
                                 />
                             </div>
                             <div className="url" style={{ width: "160px" }}>
-                                <Link to="#">{item?.shortLink}</Link>
+                                <Link to="#" style={{ textDecoration: "none", fontSize:"13px" }}>{item?.shortLink}</Link>
                             </div>
                         </div>
 
