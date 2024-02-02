@@ -7,7 +7,7 @@ const Create = () => {
   const [formData, setFormData] = useState({
     tag: "",
     count: "",
-    cashback: "",
+    cashback_lucky_users: "",
     cashback_amount: "",
   });
 
@@ -26,7 +26,7 @@ const Create = () => {
       ...formData,
       tag: "",
       count: "",
-      cashback: "",
+      cashback_lucky_users: "",
       cashback_amount: "",
     })
   };
@@ -88,14 +88,14 @@ const Create = () => {
 
                         <div className="col-lg-3">
                           <div className="form-group">
-                            <label htmlFor="cashback">Number Of Cashback</label>
+                            <label htmlFor="cashback_lucky_users">Number Of Cashback</label>
                             <input
                               type="text"
                               className="form-control"
                               placeholder="Enter Number Of Cashback"
-                              id="cashback"
-                              name='cashback'
-                              value={formData.cashback}
+                              id="cashback_lucky_users"
+                              name='cashback_lucky_users'
+                              value={formData.cashback_lucky_users}
                               onChange={handleChange}
                               required
                             />
