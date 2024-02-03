@@ -35,6 +35,19 @@ export const UserLogin = createAsyncThunk("/auth/admin/login", async ({ data, na
         }
         return result?.data;
     } catch (err) {
+        if (!err?.response?.data?.success) {
+            toast.error(err?.response?.data?.message, {
+                duration: 4000,
+                style: {
+                    background: "black",
+                    color: "white",
+                },
+                iconTheme: {
+                    primary: '#FFF',
+                    secondary: 'red',
+                },
+            });
+        }
         return rejectWithValue(err.response.data);
     }
 
@@ -66,6 +79,19 @@ export const UserSignup = createAsyncThunk("/auth/admin/registration", async ({ 
         }
         return result?.data;
     } catch (err) {
+        if (!err?.response?.data?.success) {
+            toast.error(err?.response?.data?.message, {
+                duration: 4000,
+                style: {
+                    background: "black",
+                    color: "white",
+                },
+                iconTheme: {
+                    primary: '#FFF',
+                    secondary: 'red',
+                },
+            });
+        }
         return rejectWithValue(err.response.data);
     }
 

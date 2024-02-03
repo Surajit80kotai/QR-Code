@@ -1,44 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserSignup, clearError } from '../../services/slices/AuthSlice';
+import { useFormik } from 'formik';
+import { signUpValidationSchema } from '../../helper/FormValidation';
+import AllPageLoader from '../../utility/AllPageLoader';
 
 
 const Register = () => {
     const AVTIVE_WEB_URL = process.env.REACT_APP_BASE_URL_PREFIX;
     const token = JSON.parse(window.localStorage.getItem('token'));
 
-    const [formValues, setFormvalues] = useState({
-        full_name: "",
-        email: "",
-        password: "",
-    });
-
-    const [formError, setFormerror] = useState(false);
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { error } = useSelector(state => state.AuthSlice);
+    const { loading } = useSelector(state => state.AuthSlice);
 
-    const handleChange = (e) => {
-        setFormvalues({ ...formValues, [e.target.name]: e.target.value });
-        dispatch(clearError());
-        setFormerror(false);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!(formValues?.full_name || formValues?.email || formValues?.password)) {
-            setFormerror(true);
-        } else {
-            const data = {
-                full_name: formValues?.full_name,
-                email: formValues?.email,
-                password: formValues?.password,
-            }
-            dispatch(UserSignup({ data, navigate }));
-        }
-    };
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+        initialValues: {
+            full_name: "",
+            email: "",
+            password: "",
+            conf_password: "",
+        },
+        validationSchema: signUpValidationSchema,
+        onSubmit: (values) => {
+            dispatch(UserSignup({ data: values, navigate }));
+        },
+    });
 
     useEffect(() => {
         if (token) {
@@ -53,6 +41,9 @@ const Register = () => {
 
     return (
         <>
+            {/* Loader */}
+            {loading && <AllPageLoader />}
+
             <div className="container-login">
                 <div className="row justify-content-center">
                     <div className="col-xl-6 col-lg-12 col-md-9">
@@ -76,13 +67,14 @@ const Register = () => {
                                                         placeholder="Enter Your Full Name"
                                                         id="full_name"
                                                         name='full_name'
-                                                        value={formValues?.full_name}
+                                                        value={values?.full_name}
                                                         onChange={handleChange}
-                                                        style={{ border: formError ? "1px solid red" : null }}
+                                                        onBlur={handleBlur}
+                                                        style={{ border: touched?.full_name && errors?.full_name ? "1px solid red" : null }}
                                                     />
                                                     {
-                                                        error?.key === "full_name" ?
-                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{error?.message}</p>
+                                                        touched?.full_name && errors?.full_name ?
+                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{errors?.full_name}</p>
                                                             : null
                                                     }
                                                 </div>
@@ -96,13 +88,14 @@ const Register = () => {
                                                         placeholder="Enter Email Address"
                                                         id="email"
                                                         name='email'
-                                                        value={formValues?.email}
+                                                        value={values?.email}
                                                         onChange={handleChange}
-                                                        style={{ border: formError ? "1px solid red" : null }}
+                                                        onBlur={handleBlur}
+                                                        style={{ border: touched?.email && errors?.email ? "1px solid red" : null }}
                                                     />
                                                     {
-                                                        error?.key === "email" ?
-                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{error?.message}</p>
+                                                        touched?.email && errors?.email ?
+                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{errors?.email}</p>
                                                             : null
                                                     }
                                                 </div>
@@ -115,13 +108,34 @@ const Register = () => {
                                                         placeholder="••••••••"
                                                         id="password"
                                                         name='password'
-                                                        value={formValues?.password}
+                                                        value={values?.password}
                                                         onChange={handleChange}
-                                                        style={{ border: formError ? "1px solid red" : null }}
+                                                        onBlur={handleBlur}
+                                                        style={{ border: touched?.password && errors?.password ? "1px solid red" : null }}
                                                     />
                                                     {
-                                                        error?.key === "password" ?
-                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{error?.message}</p>
+                                                        touched?.password && errors?.password ?
+                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{errors?.password}</p>
+                                                            : null
+                                                    }
+                                                </div>
+
+                                                <div className="form-group">
+                                                    <label htmlFor='conf_password'>Confirm Password</label>
+                                                    <input
+                                                        type="password"
+                                                        className="form-control"
+                                                        placeholder="••••••••"
+                                                        id="conf_password"
+                                                        name='conf_password'
+                                                        value={values?.conf_password}
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
+                                                        style={{ border: touched?.conf_password && errors?.conf_password ? "1px solid red" : null }}
+                                                    />
+                                                    {
+                                                        touched?.conf_password && errors?.conf_password ?
+                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{errors?.conf_password}</p>
                                                             : null
                                                     }
                                                 </div>

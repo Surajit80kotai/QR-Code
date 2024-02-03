@@ -1,8 +1,11 @@
 import Cookies from 'js-cookie';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserLogin, clearError } from '../../services/slices/AuthSlice';
+import { useFormik } from 'formik';
+import { loginValidationSchema } from '../../helper/FormValidation';
+import AllPageLoader from '../../utility/AllPageLoader';
 
 
 const Login = () => {
@@ -11,37 +14,21 @@ const Login = () => {
     const user = JSON.parse(Cookies.get("user") || "{}");
     const token = JSON.parse(window.localStorage.getItem('token'));
 
-    const [formValues, setFormvalues] = useState({
-        email: user?.rememberme ? user?.email : "",
-        password: user?.rememberme ? user?.password : "",
-        rememberme: false
-    });
-
-    const [formError, setFormerror] = useState(false);
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { error } = useSelector(state => state.AuthSlice);
+    const { loading } = useSelector(state => state.AuthSlice);
 
-    const handleChange = (e) => {
-        setFormvalues({ ...formValues, [e.target.name]: e.target.value });
-        dispatch(clearError());
-        setFormerror(false);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!(formValues?.email || formValues?.password)) {
-            setFormerror(true);
-        } else {
-            const data = {
-                email: formValues?.email,
-                password: formValues?.password,
-                rememberme: formValues?.rememberme,
-            }
-            dispatch(UserLogin({ data, navigate }));
-        }
-    };
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+        initialValues: {
+            email: user?.rememberme ? user?.email : "",
+            password: user?.rememberme ? user?.password : "",
+            rememberme: false
+        },
+        validationSchema: loginValidationSchema,
+        onSubmit: (values) => {
+            dispatch(UserLogin({ data: values, navigate }));
+        },
+    });
 
     useEffect(() => {
         if (token) {
@@ -56,6 +43,9 @@ const Login = () => {
 
     return (
         <>
+            {/* Loader */}
+            {loading && <AllPageLoader />}
+
             <div className="container-login">
                 <div className="row justify-content-center">
                     <div className="col-xl-6 col-lg-12 col-md-9">
@@ -79,13 +69,14 @@ const Login = () => {
                                                         placeholder="Enter Email Address"
                                                         id="email"
                                                         name='email'
-                                                        value={formValues?.email || ""}
+                                                        value={values?.email || ""}
                                                         onChange={handleChange}
-                                                        style={{ border: formError ? "1px solid red" : null }}
+                                                        onBlur={handleBlur}
+                                                        style={{ border: touched?.email && errors?.email ? "1px solid red" : null }}
                                                     />
                                                     {
-                                                        error?.key === "email" ?
-                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{error?.message}</p>
+                                                        touched?.email && errors?.email ?
+                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{errors?.email}</p>
                                                             : null
                                                     }
                                                 </div>
@@ -98,13 +89,14 @@ const Login = () => {
                                                         placeholder="••••••••"
                                                         id="password"
                                                         name='password'
-                                                        value={formValues?.password || ""}
+                                                        value={values?.password || ""}
                                                         onChange={handleChange}
-                                                        style={{ border: formError ? "1px solid red" : null }}
+                                                        onBlur={handleBlur}
+                                                        style={{ border: touched?.password && errors?.password ? "1px solid red" : null }}
                                                     />
                                                     {
-                                                        error?.key === "password" ?
-                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{error?.message}</p>
+                                                        touched?.password && errors?.password ?
+                                                            <p className='text-danger m-1' style={{ fontSize: "14px" }}>*{errors?.password}</p>
                                                             : null
                                                     }
                                                 </div>
@@ -115,8 +107,8 @@ const Login = () => {
                                                             type="checkbox"
                                                             className="custom-control-input"
                                                             id="rememberme"
-                                                            checked={formValues?.rememberme}
-                                                            onChange={(e) => setFormvalues({ ...formValues, rememberme: e.target.checked })}
+                                                            checked={values?.rememberme}
+                                                            onChange={handleChange}
                                                         />
                                                         <label className="custom-control-label" htmlFor="rememberme">Remember
                                                             Me</label>

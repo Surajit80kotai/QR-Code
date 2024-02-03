@@ -1,35 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { createQRcode } from '../../services/slices/UtilitySlice';
+import { useFormik } from 'formik';
+import { createQRtagSchema } from '../../helper/FormValidation';
+
 
 const Create = () => {
-  const [formData, setFormData] = useState({
+  const initialValues = {
     tag: "",
     count: "",
     cashback_lucky_users: "",
     cashback_amount: "",
-  });
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = { ...formData }
-    dispatch(createQRcode({ data, navigate }));
-    setFormData({
-      ...formData,
-      tag: "",
-      count: "",
-      cashback_lucky_users: "",
-      cashback_amount: "",
-    })
-  };
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues,
+    validationSchema: createQRtagSchema,
+    onSubmit: (values) => {
+      const data = { ...values };
+      dispatch(createQRcode({ data, navigate }));
+    }
+  });
 
 
   return (
@@ -61,11 +56,15 @@ const Create = () => {
                               placeholder="Enter Tag"
                               id="tag"
                               name='tag'
-                              value={formData.tag}
+                              value={values?.tag}
                               onChange={handleChange}
-                              required
+                              onBlur={handleBlur}
                             />
-                            <small id="" className="form-text text-muted"></small>
+                            {
+                              errors?.tag && touched?.tag ?
+                                <small className="form-text text-danger">{errors?.tag}</small>
+                                : null
+                            }
                           </div>
                         </div>
 
@@ -78,11 +77,15 @@ const Create = () => {
                               placeholder="Enter Tag number"
                               id="count"
                               name='count'
-                              value={formData.count}
+                              value={values?.count}
                               onChange={handleChange}
-                              required
+                              onBlur={handleBlur}
                             />
-                            <small id="" className="form-text text-muted"></small>
+                            {
+                              errors?.count && touched?.count ?
+                                <small className="form-text text-danger">{errors?.count}</small>
+                                : null
+                            }
                           </div>
                         </div>
 
@@ -95,10 +98,15 @@ const Create = () => {
                               placeholder="Enter Number Of Cashback"
                               id="cashback_lucky_users"
                               name='cashback_lucky_users'
-                              value={formData.cashback_lucky_users}
+                              value={values?.cashback_lucky_users}
                               onChange={handleChange}
-                              required
+                              onBlur={handleBlur}
                             />
+                            {
+                              errors?.cashback_lucky_users && touched?.cashback_lucky_users ?
+                                <small className="form-text text-danger">{errors?.cashback_lucky_users}</small>
+                                : null
+                            }
                           </div>
                         </div>
 
@@ -111,10 +119,15 @@ const Create = () => {
                               placeholder="Enter Cashback Of Amount"
                               id="cashback_amount"
                               name='cashback_amount'
-                              value={formData.cashback_amount}
+                              value={values?.cashback_amount}
                               onChange={handleChange}
-                              required
+                              onBlur={handleBlur}
                             />
+                            {
+                              errors?.cashback_amount && touched?.cashback_amount ?
+                                <small className="form-text text-danger">{errors?.cashback_amount}</small>
+                                : null
+                            }
                           </div>
                         </div>
                       </div>
@@ -129,8 +142,8 @@ const Create = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   )
 }

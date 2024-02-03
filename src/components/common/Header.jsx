@@ -75,7 +75,7 @@ const Header = ({ toggleHamburger }) => {
         <>
             {/* Loader */}
             {QRloading || isDownloading ? <QRLoader /> : null}
-            {loading ? <AllPageLoader /> : null}
+            {loading && <AllPageLoader />}
 
             <div id="content-wrapper" className="d-flex flex-column">
                 <div id="content">
