@@ -22,10 +22,10 @@ root.render(
         <Route path='/' element={<Index />} />
         <Route element={<ProtectedOne />}>
           <Route path='*' element={<App />} />
-          <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/fd/:uuid?`} element={<UserFeedbackForm />} />
-          <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`} element={<ThankYou />} />
-          <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`} element={<Expired />} />
         </Route>
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/fd/:uuid?`} element={<UserFeedbackForm />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`} element={<ThankYou />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`} element={<Expired />} />
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/login`} element={<Login />} />
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/register`} element={<Register />} />
       </Routes>
