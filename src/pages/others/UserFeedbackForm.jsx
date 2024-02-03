@@ -3,23 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
 import { clearFeedbackData, storeFeedbackData } from '../../services/slices/UtilitySlice';
 import AllPageLoader from '../../utility/AllPageLoader';
+import { useFormik } from 'formik';
+import { feedbackFormValidationSchema } from '../../helper/FormValidation';
 
 const UserFeedbackForm = () => {
     const AVTIVE_WEB_URL = process.env.REACT_APP_BASE_URL_PREFIX;
     const { uuid } = useParams();
-    const [formValues, setFormValues] = useState({
-        full_name: "",
-        upi_id: "",
-        mobile_number: "",
-        question_one: "",
-        question_two: "",
-        question_three: "",
-        question_four: "",
-        question_five: "",
-        question_six: "",
-        question_seven: "",
-        uuid: uuid
-    });
 
     const [locationPermission, setLocationPermission] = useState(false);
     const [locationAlertShown, setLocationAlertShown] = useState(false);
@@ -27,25 +16,35 @@ const UserFeedbackForm = () => {
     const navigate = useNavigate();
     const { feedbackData, loading } = useSelector(state => state.UtilitySlice);
 
-    const handleChange = (e) => {
-        setFormValues({ ...formValues, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (locationPermission) {
-            try {
-                const locationData = await getLocationData();
-                setFormValues({ ...formValues, location: locationData });
-                dispatch(storeFeedbackData({ data: formValues, navigate, uuid }));
-            } catch (error) {
-                console.error("Error getting location data:", error);
+    const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
+        initialValues: {
+            full_name: "",
+            upi_id: "",
+            mobile_number: "",
+            question_one: "",
+            question_two: "",
+            question_three: "",
+            question_four: "",
+            question_five: "",
+            question_six: "",
+            question_seven: "",
+            uuid: uuid
+        },
+        validationSchema: feedbackFormValidationSchema,
+        onSubmit: async (values) => {
+            if (locationPermission) {
+                try {
+                    const locationData = await getLocationData();
+                    values.location = locationData;
+                    dispatch(storeFeedbackData({ data: values, navigate, uuid }));
+                } catch (error) {
+                    console.error("Error getting location data:", error);
+                }
+            } else {
+                alert("Please grant location access to submit the form.");
             }
-        } else {
-            alert("Please grant location access to submit the form.");
-        }
-    };
+        },
+    });
 
     const getLocationData = () => {
         return new Promise((resolve, reject) => {
@@ -99,14 +98,6 @@ const UserFeedbackForm = () => {
         }
     }, [dispatch, navigate, feedbackData, locationPermission, locationAlertShown]);
 
-    useEffect(() => {
-        if (locationPermission) {
-            getLocationData().then(locationData => {
-                setFormValues({ ...formValues, location: locationData });
-            });
-        }
-    }, [formValues, locationPermission]);
-
 
     return (
         <>
@@ -141,10 +132,16 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="full_name"
                                             name="full_name"
-                                            value={formValues?.full_name}
+                                            value={values?.full_name}
                                             onChange={handleChange}
-                                            required
+                                            onBlur={handleBlur}
+                                            style={{ border: errors?.full_name && touched?.full_name ? "1px solid red" : null }}
                                         />
+                                        {
+                                            errors?.full_name && touched?.full_name ?
+                                                <small className="form-text text-danger">*{errors?.full_name}</small>
+                                                : null
+                                        }
                                     </div>
                                 </div>
                                 <div className="col-md-6">
@@ -156,10 +153,16 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="upi_id"
                                             name="upi_id"
-                                            value={formValues?.upi_id}
+                                            value={values?.upi_id}
                                             onChange={handleChange}
-                                            required
+                                            onBlur={handleBlur}
+                                            style={{ border: errors?.upi_id && touched?.upi_id ? "1px solid red" : null }}
                                         />
+                                        {
+                                            errors?.upi_id && touched?.upi_id ?
+                                                <small className="form-text text-danger">*{errors?.upi_id}</small>
+                                                : null
+                                        }
                                     </div>
                                 </div>
                                 <div className="col-md-6">
@@ -171,11 +174,17 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="mobile_number"
                                             name="mobile_number"
-                                            value={formValues?.mobile_number}
+                                            value={values?.mobile_number}
                                             onChange={handleChange}
                                             maxLength={10}
-                                            required
+                                            onBlur={handleBlur}
+                                            style={{ border: errors?.mobile_number && touched?.mobile_number ? "1px solid red" : null }}
                                         />
+                                        {
+                                            errors?.mobile_number && touched?.mobile_number ?
+                                                <small className="form-text text-danger">*{errors?.mobile_number}</small>
+                                                : null
+                                        }
                                     </div>
                                 </div>
                                 <div className="col-md-6">
@@ -186,7 +195,7 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="question_one"
                                             name="question_one"
-                                            value={formValues?.question_one}
+                                            value={values?.question_one}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -199,7 +208,7 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="question_two"
                                             name="question_two"
-                                            value={formValues?.question_two}
+                                            value={values?.question_two}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -212,7 +221,7 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="question_three"
                                             name="question_three"
-                                            value={formValues?.question_three}
+                                            value={values?.question_three}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -225,7 +234,7 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="question_four"
                                             name="question_four"
-                                            value={formValues?.question_four}
+                                            value={values?.question_four}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -238,7 +247,7 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="question_five"
                                             name="question_five"
-                                            value={formValues?.question_five}
+                                            value={values?.question_five}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -251,7 +260,7 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="question_six"
                                             name="question_six"
-                                            value={formValues?.question_six}
+                                            value={values?.question_six}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -264,14 +273,14 @@ const UserFeedbackForm = () => {
                                             className="form-control py-4"
                                             id="question_seven"
                                             name="question_seven"
-                                            value={formValues?.question_seven}
+                                            value={values?.question_seven}
                                             onChange={handleChange}
                                         />
                                     </div>
                                 </div>
                             </div>
                             <div className="text-center my-4">
-                                <button className={locationPermission ? "btn btn-primary btn-lg" : "btn btn-secondary btn-lg"} type="submit" disabled={!locationPermission}>
+                                <button className="btn btn-primary btn-lg" type="submit" disabled={!isValid}>
                                     Submit
                                 </button>
                             </div>

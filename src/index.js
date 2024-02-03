@@ -19,9 +19,9 @@ root.render(
   <Provider store={Store}>
     <Router>
       <Routes>
+        <Route path='/' element={<Index />} />
         <Route element={<ProtectedOne />}>
           <Route path='*' element={<App />} />
-          <Route path='/' element={<Index />} />
           <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/fd/:uuid?`} element={<UserFeedbackForm />} />
           <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`} element={<ThankYou />} />
           <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`} element={<Expired />} />

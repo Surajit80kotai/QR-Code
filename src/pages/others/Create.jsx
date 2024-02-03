@@ -59,10 +59,11 @@ const Create = () => {
                               value={values?.tag}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              style={{ border: errors?.tag && touched?.tag ? "1px solid red" : null }}
                             />
                             {
                               errors?.tag && touched?.tag ?
-                                <small className="form-text text-danger">{errors?.tag}</small>
+                                <small className="form-text text-danger">*{errors?.tag}</small>
                                 : null
                             }
                           </div>
@@ -80,10 +81,11 @@ const Create = () => {
                               value={values?.count}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              style={{ border: errors?.count && touched?.count ? "1px solid red" : null }}
                             />
                             {
                               errors?.count && touched?.count ?
-                                <small className="form-text text-danger">{errors?.count}</small>
+                                <small className="form-text text-danger">*{errors?.count}</small>
                                 : null
                             }
                           </div>
@@ -101,10 +103,11 @@ const Create = () => {
                               value={values?.cashback_lucky_users}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              style={{ border: errors?.cashback_lucky_users && touched?.cashback_lucky_users ? "1px solid red" : null }}
                             />
                             {
                               errors?.cashback_lucky_users && touched?.cashback_lucky_users ?
-                                <small className="form-text text-danger">{errors?.cashback_lucky_users}</small>
+                                <small className="form-text text-danger">*{errors?.cashback_lucky_users}</small>
                                 : null
                             }
                           </div>
@@ -122,10 +125,11 @@ const Create = () => {
                               value={values?.cashback_amount}
                               onChange={handleChange}
                               onBlur={handleBlur}
+                              style={{ border: errors?.cashback_amount && touched?.cashback_amount ? "1px solid red" : null }}
                             />
                             {
                               errors?.cashback_amount && touched?.cashback_amount ?
-                                <small className="form-text text-danger">{errors?.cashback_amount}</small>
+                                <small className="form-text text-danger">*{errors?.cashback_amount}</small>
                                 : null
                             }
                           </div>
