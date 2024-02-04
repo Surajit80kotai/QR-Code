@@ -31,40 +31,46 @@ const UserFeedbackForm = () => {
             uuid: uuid
         },
         validationSchema: feedbackFormValidationSchema,
-        onSubmit: async (values) => {
-            if (locationPermission) {
-                try {
-                    const locationData = await getLocationData();
-                    values.location = locationData;
-                    dispatch(storeFeedbackData({ data: values, navigate, uuid }));
-                } catch (error) {
-                    console.error("Error getting location data:", error);
-                }
-            } else {
-                alert("Please grant location access to submit the form.");
-            }
+        onSubmit: (values) => {
+            dispatch(storeFeedbackData({ data: values, navigate, uuid }));
         },
+
+        // // Submit when location access is on
+        // onSubmit: async (values) => {
+        //     if (locationPermission) {
+        //         try {
+        //             const locationData = await getLocationData();
+        //             values.location = locationData;
+        //             dispatch(storeFeedbackData({ data: values, navigate, uuid }));
+        //         } catch (error) {
+        //             console.error("Error getting location data:", error);
+        //         }
+        //     } else {
+        //         alert("Please grant location access to submit the form.");
+        //     }
+        // },
     });
 
-    const getLocationData = () => {
-        return new Promise((resolve, reject) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const { latitude, longitude } = position.coords;
-                        resolve({ latitude, longitude });
-                    },
-                    (error) => {
-                        console.error(error.message);
-                        reject(error);
-                    }
-                );
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-                reject(new Error("Geolocation not supported"));
-            }
-        });
-    };
+    // // Access Location
+    // const getLocationData = () => {
+    //     return new Promise((resolve, reject) => {
+    //         if (navigator.geolocation) {
+    //             navigator.geolocation.getCurrentPosition(
+    //                 (position) => {
+    //                     const { latitude, longitude } = position.coords;
+    //                     resolve({ latitude, longitude });
+    //                 },
+    //                 (error) => {
+    //                     console.error(error.message);
+    //                     reject(error);
+    //                 }
+    //             );
+    //         } else {
+    //             console.error("Geolocation is not supported by this browser.");
+    //             reject(new Error("Geolocation not supported"));
+    //         }
+    //     });
+    // };
 
     const requestLocationAccess = () => {
         navigator.permissions.query({ name: 'geolocation' })
