@@ -6,12 +6,14 @@ import { UserLogin, clearError } from '../../services/slices/AuthSlice';
 import { useFormik } from 'formik';
 import { loginValidationSchema } from '../../helper/FormValidation';
 import AllPageLoader from '../../utility/AllPageLoader';
+import { DcryptData } from '../../helper/EncryptDcrypt ';
 
+
+const userCookie = Cookies.get("user");
+const user = DcryptData(userCookie) || {};
 
 const Login = () => {
     const AVTIVE_WEB_URL = process.env.REACT_APP_BASE_URL_PREFIX;
-
-    const user = JSON.parse(Cookies.get("user") || "{}");
     const token = JSON.parse(window.localStorage.getItem('token'));
 
     const dispatch = useDispatch();

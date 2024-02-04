@@ -10,7 +10,8 @@ export const UserLogin = createAsyncThunk("/auth/admin/login", async ({ data, na
         const result = await LOGIN(data);
         if (result?.data?.success) {
             if (result?.data?.data?.rememberme === true) {
-                Cookies.set('user', JSON.stringify(data));
+                const encryptedUserData = EncryptData(JSON.stringify(data));
+                Cookies.set('user', encryptedUserData);
             } else {
                 Cookies.remove("user")
             }
