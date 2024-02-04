@@ -16,15 +16,7 @@ const UserFeedbackForm = () => {
     const navigate = useNavigate();
     const { feedbackData, loading } = useSelector((state) => state.UtilitySlice);
 
-    const {
-        values,
-        errors,
-        touched,
-        isValid,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-    } = useFormik({
+    const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: {
             full_name: '',
             upi_id: '',
@@ -62,7 +54,18 @@ const UserFeedbackForm = () => {
         //     if (locationPermission) {
         //         try {
         //             const locationData = await getLocationData();
-        //             values?.location = locationData;
+
+        //             // Assign "otherPrice" to "Purchase_Price" if the condition is met
+        //             if (values?.Purchase_Price === 'Other') {
+        //                 values.Purchase_Price = values.otherPrice;
+        //             }
+
+        //             // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
+        //             if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
+        //                 values.Purchase_Location = values.otherPurchaseLocation;
+        //             }
+
+        //             values.location = locationData;
         //             dispatch(storeFeedbackData({ data: values, navigate, uuid }));
         //         } catch (error) {
         //             console.error("Error getting location data:", error);
