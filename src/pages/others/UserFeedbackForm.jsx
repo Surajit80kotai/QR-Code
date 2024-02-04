@@ -37,6 +37,10 @@ const UserFeedbackForm = () => {
             Quality_Rating: '',
             Future_Purchases: '',
             Additional_Comments: '',
+            location: {
+                lat: 22.5726,
+                lng: 88.3639
+            },
             uuid: uuid,
         },
         validationSchema: feedbackFormValidationSchema,
@@ -295,6 +299,7 @@ const UserFeedbackForm = () => {
                                                 name="otherPurchaseLocation"
                                                 value={(values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') ? values?.otherPurchaseLocation || '' : ''}
                                                 onChange={handleChange}
+                                                required={(values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') ? true : false}
                                             />
                                         </div>
                                     </div>
@@ -341,6 +346,7 @@ const UserFeedbackForm = () => {
                                                 name="otherPrice"
                                                 value={(values?.Purchase_Price === 'Other') ? values?.otherPrice || '' : ''}
                                                 onChange={handleChange}
+                                                required={(values?.Purchase_Price === 'Other') ? true : false}
                                             />
                                         </div>
                                     </div>

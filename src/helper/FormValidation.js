@@ -29,9 +29,7 @@ export const feedbackFormValidationSchema = Yup.object({
         .required("Mobile Number is required"),
     Recent_Purchases: Yup.string().required("Please Select One"),
     Purchase_Location: Yup.string().required("Please Select One"),
-    otherPurchaseLocation: Yup.string().required("Please Mention Your Other Option"),
     Purchase_Price: Yup.string().required("Please Select One"),
-    otherPrice: Yup.string().required("Please Mention Your Other Option"),
     Quality_Rating: Yup.string().required("Please Select One"),
     Future_Purchases: Yup.string().required("Please Select One"),
 });
