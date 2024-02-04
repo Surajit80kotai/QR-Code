@@ -1,5 +1,5 @@
 const CryptoJS = require("crypto-js");
-const SECRET_KEY = "process.env.REACT_APP_SECRET_KEY";
+const SECRET_KEY = "fezeewshard0&retryWritestrue&wmajority&ssltrueisi";
 
 exports.EncryptData = (data) => {
     const encryptedData = CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
