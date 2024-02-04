@@ -27,4 +27,11 @@ export const feedbackFormValidationSchema = Yup.object({
     mobile_number: Yup.string()
         .matches(/^[0-9]{10}$/, 'Mobile Number must have exactly 10 digits')
         .required("Mobile Number is required"),
+    Recent_Purchases: Yup.string().required("Please Select One"),
+    Purchase_Location: Yup.string().required("Please Select One"),
+    otherPurchaseLocation: Yup.string().required("Please Mention Your Other Option"),
+    Purchase_Price: Yup.string().required("Please Select One"),
+    otherPrice: Yup.string().required("Please Mention Your Other Option"),
+    Quality_Rating: Yup.string().required("Please Select One"),
+    Future_Purchases: Yup.string().required("Please Select One"),
 });

@@ -12,7 +12,7 @@ const Taglist = () => {
     const { data } = useSelector(state => state.UtilitySlice);
 
     // pagination
-    const dataPerPage = 10;
+    const dataPerPage = process.env.REACT_APP_PAGE_SIZE;
     const pagesVisited = pageNumber * dataPerPage;
     const newTagData = tagData?.slice(pagesVisited, pagesVisited + dataPerPage);
     const pageCount = Math.ceil((tagData?.length || 0) / dataPerPage);

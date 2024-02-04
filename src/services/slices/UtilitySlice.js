@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CREATEQRCODE, DOWNLOADPDF, GETQRCODE, QRCODETAGS, STOREFEEDBACKDATA } from "../Api/ApiInstances";
+import { CREATEQRCODE, DASHBOARDDATA, DOWNLOADPDF, GETQRCODE, QRCODETAGS, REPORTDATA, STOREFEEDBACKDATA } from "../Api/ApiInstances";
 import toast from "react-hot-toast";
 
 //AsyncThunk For cretae QR code 
@@ -80,6 +80,26 @@ export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navi
     }
 });
 
+// AsyncThunk For get dashboard data
+export const getDashboardData = createAsyncThunk("/dashboard/data", async (payload, { rejectWithValue }) => {
+    try {
+        const result = await DASHBOARDDATA();
+        return result?.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
+// AsyncThunk For get report data
+export const getReportData = createAsyncThunk("/report/data", async (payload, { rejectWithValue }) => {
+    try {
+        const result = await REPORTDATA();
+        return result?.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
 
 
 
@@ -87,6 +107,8 @@ export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navi
 const UtilitySlice = createSlice({
     name: "UtilitySlice",
     initialState: {
+        dashboardData: null,
+        reportData: null,
         QRdata: null,
         data: null,
         feedbackData: null,
@@ -187,6 +209,38 @@ const UtilitySlice = createSlice({
             state.feedbackData = payload;
         })
         builder.addCase(storeFeedbackData.rejected, (state, { payload }) => {
+            state.status = "Failed";
+            state.loading = false;
+            state.error = payload;
+        });
+
+        //States for getDashboardData
+        builder.addCase(getDashboardData.pending, (state, { payload }) => {
+            state.status = "Loading...";
+            state.loading = true;
+        })
+        builder.addCase(getDashboardData.fulfilled, (state, { payload }) => {
+            state.status = "Success";
+            state.loading = false;
+            state.dashboardData = payload?.data;
+        })
+        builder.addCase(getDashboardData.rejected, (state, { payload }) => {
+            state.status = "Failed";
+            state.loading = false;
+            state.error = payload;
+        });
+
+        //States for getReportData
+        builder.addCase(getReportData.pending, (state, { payload }) => {
+            state.status = "Loading...";
+            state.loading = true;
+        })
+        builder.addCase(getReportData.fulfilled, (state, { payload }) => {
+            state.status = "Success";
+            state.loading = false;
+            state.reportData = payload?.data;
+        })
+        builder.addCase(getReportData.rejected, (state, { payload }) => {
             state.status = "Failed";
             state.loading = false;
             state.error = payload;

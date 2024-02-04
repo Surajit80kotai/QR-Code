@@ -1,8 +1,11 @@
+import React, { useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getDashboardData } from '../../services/slices/UtilitySlice';
 
 const Dashboard = () => {
+
     const mapContainerStyle = {
         height: '100%',
         width: '100%',
@@ -14,12 +17,12 @@ const Dashboard = () => {
         lng: 78.9629, // Longitude for India
     };
 
-    const highlightedLocations = [
-        { id: 1, lat: 20.5937, lng: 78.9629, label: 'Location 1' },
-        { id: 2, lat: 19.0760, lng: 72.8777, label: 'Location 2' },
-        { id: 3, lat: 28.6139, lng: 77.2090, label: 'Location 3' },
-        { id: 4, lat: 22.5726, lng: 88.3639, label: 'Kolkata' },
-    ];
+    const dispatch = useDispatch();
+    const { dashboardData } = useSelector(state => state.UtilitySlice);
+
+    useEffect(() => {
+        dispatch(getDashboardData());
+    }, [dispatch]);
 
     return (
         <>
@@ -56,7 +59,7 @@ const Dashboard = () => {
                                 <div className="row align-items-center">
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-uppercase mb-1">Total Cashback</div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">₹40,000</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">₹{dashboardData?.TotalCashBack}</div>
                                         <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fa fa-arrow-up"></i> 3.48%</span>
                                             <span>Since last month</span>
@@ -78,7 +81,7 @@ const Dashboard = () => {
                                 <div className="row no-gutters align-items-center">
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-uppercase mb-1">Total QR Create</div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">650</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.AllQRCodesCount}</div>
                                         <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 12%</span>
                                             <span>Since last Month</span>
@@ -100,7 +103,7 @@ const Dashboard = () => {
                                 <div className="row no-gutters align-items-center">
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-uppercase mb-1">Total QR Scaned</div>
-                                        <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.UsedQRCodesCount}</div>
                                         <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 20.4%</span>
                                             <span>Since last month</span>
@@ -125,7 +128,7 @@ const Dashboard = () => {
                                 zoom={5}
                             >
                                 {/* Render markers on the map based on the highlightedLocations data */}
-                                {highlightedLocations.map((location) => (
+                                {dashboardData?.HighlightedLocations?.map((location) => (
                                     <Marker
                                         key={location.id}
                                         position={{ lat: location.lat, lng: location.lng }}

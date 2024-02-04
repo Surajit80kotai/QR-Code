@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const API = axios.create({ baseURL: process.env.REACT_APP_BASE_URL });
-export const api = axios.create({ baseURL: process.env.REACT_APP_NODE_HOST });
 
 // Login api
 export const LOGIN = (data) => API.post('/auth/admin/login', data);
@@ -15,5 +14,17 @@ export const QRCODETAGS = () => API.get('/qrcode/tags');
 export const GETQRCODE = (flag, page, pageSize) => API.get(`/qrcode/get/${flag}`, { params: { page, pageSize } });
 // get download Pdf
 export const DOWNLOADPDF = (flag) => API.get(`/qrcode/pdf/${flag}`);
+// dashboard data
+export const DASHBOARDDATA = () => API.get(`/dashboard/data`);
+// report data
+export const REPORTDATA = () => API.get(`/report/data`);
+
+
+
+
+
+
+export const api = axios.create({ baseURL: process.env.REACT_APP_NODE_HOST });
+
 // store feedback data
 export const STOREFEEDBACKDATA = (data, uuid) => api.post(`/sl/sm/${uuid}`, data);

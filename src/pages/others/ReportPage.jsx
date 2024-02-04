@@ -1,7 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { getReportData } from '../../services/slices/UtilitySlice';
+import ReportList from '../../components/core/reportPage/ReportList';
+import ReactPagination from '../../utility/ReactPagination';
 
 const ReportPage = () => {
+    const [ReportData, setReportData] = useState(null);
+    const [pageNumber, setPageNumber] = useState(0);
+
+    const dispatch = useDispatch();
+    const { reportData } = useSelector(state => state.UtilitySlice);
+
+    // pagination
+    const dataPerPage = process.env.REACT_APP_PAGE_SIZE;
+    const pagesVisited = pageNumber * dataPerPage;
+    const newReportData = ReportData?.slice(pagesVisited, pagesVisited + dataPerPage);
+    const pageCount = Math.ceil((ReportData?.length || 0) / dataPerPage);
+
+    const changePage = (newData) => {
+        setPageNumber(newData?.selected)
+    }
+
+
+    useEffect(() => {
+        dispatch(getReportData());
+    }, [dispatch]);
+
+    useEffect(() => {
+        setReportData(reportData);
+    }, [reportData]);
+
+
     return (
         <>
             <div className="container-fluid" id="container-wrapper">
@@ -36,14 +66,17 @@ const ReportPage = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>01-02-2024</td>
-                                            <td><span className="badge badge-success">₹ 23541</span></td>
-                                            <td>12456</td>
-                                            <td>1564</td>
-                                        </tr>
-
+                                        {
+                                            newReportData?.length > 0 &&
+                                            newReportData?.map((item, index) => {
+                                                return (
+                                                    <ReportList
+                                                        key={index}
+                                                        item={item}
+                                                    />
+                                                )
+                                            })
+                                        }
                                     </tbody>
                                 </table>
 
@@ -55,24 +88,10 @@ const ReportPage = () => {
                         {/* Pagination */}
                         <div className="d-flex justify-content-start">
                             <div className="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                                <ul className="pagination">
-                                    <li className="paginate_button page-item previous disabled" id="dataTable_previous"><Link to="#"
-                                        aria-controls="dataTable" data-dt-idx="0" tabIndex="0" className="page-link">Previous</Link></li>
-                                    <li className="paginate_button page-item active"><Link to="#" aria-controls="dataTable" data-dt-idx="1"
-                                        tabIndex="0" className="page-link">1</Link></li>
-                                    <li className="paginate_button page-item "><Link to="#" aria-controls="dataTable" data-dt-idx="2"
-                                        tabIndex="0" className="page-link">2</Link></li>
-                                    <li className="paginate_button page-item "><Link to="#" aria-controls="dataTable" data-dt-idx="3"
-                                        tabIndex="0" className="page-link">3</Link></li>
-                                    <li className="paginate_button page-item "><Link to="#" aria-controls="dataTable" data-dt-idx="4"
-                                        tabIndex="0" className="page-link">4</Link></li>
-                                    <li className="paginate_button page-item "><Link to="#" aria-controls="dataTable" data-dt-idx="5"
-                                        tabIndex="0" className="page-link">5</Link></li>
-                                    <li className="paginate_button page-item "><Link to="#" aria-controls="dataTable" data-dt-idx="6"
-                                        tabIndex="0" className="page-link">6</Link></li>
-                                    <li className="paginate_button page-item next" id="dataTable_next"><Link to="#" aria-controls="dataTable"
-                                        data-dt-idx="7" tabIndex="0" className="page-link">Next</Link></li>
-                                </ul>
+                                <ReactPagination
+                                    pageCount={pageCount}
+                                    changePage={changePage}
+                                />
                             </div>
                         </div>
                     </div>
