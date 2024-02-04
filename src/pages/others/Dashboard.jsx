@@ -34,7 +34,8 @@ const Dashboard = () => {
                         <li className="breadcrumb-item active" aria-current="page">Dashboard</li>
                     </ol>
                 </div>
-                <div className="d-flex justify-content-end mb-3">
+
+                {/* <div className="d-flex justify-content-end mb-3">
                     <div className="dropdown no-arrow">
                         <Link className="dropdown-toggle btn btn-primary btn-sm" to="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,7 +50,7 @@ const Dashboard = () => {
                             <Link className="dropdown-item" to="#">This Year</Link>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="row mb-3">
                     {/* <!-- Earnings (Monthly) Card Example --> */}
