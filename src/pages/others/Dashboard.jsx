@@ -60,10 +60,10 @@ const Dashboard = () => {
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-uppercase mb-1">Total Cashback</div>
                                         <div className="h5 mb-0 font-weight-bold text-gray-800">₹{dashboardData?.TotalCashBack}</div>
-                                        <div className="mt-2 mb-0 text-muted text-xs">
+                                        {/* <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fa fa-arrow-up"></i> 3.48%</span>
                                             <span>Since last month</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-wallet fa-2x text-primary"></i>
@@ -82,10 +82,10 @@ const Dashboard = () => {
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-uppercase mb-1">Total QR Create</div>
                                         <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.AllQRCodesCount}</div>
-                                        <div className="mt-2 mb-0 text-muted text-xs">
+                                        {/* <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 12%</span>
                                             <span>Since last Month</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-qrcode fa-2x text-success"></i>
@@ -104,10 +104,10 @@ const Dashboard = () => {
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-uppercase mb-1">Total QR Scaned</div>
                                         <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.UsedQRCodesCount}</div>
-                                        <div className="mt-2 mb-0 text-muted text-xs">
+                                        {/* <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 20.4%</span>
                                             <span>Since last month</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-qrcode fa-2x text-info"></i>

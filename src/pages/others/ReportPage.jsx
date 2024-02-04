@@ -61,7 +61,6 @@ const ReportPage = () => {
                                             <th>Transaction ID</th>
                                             <th>Transaction Date</th>
                                             <th>Transaction Amount</th>
-                                            <th>No of QR</th>
                                             <th>QR ID</th>
                                         </tr>
                                     </thead>
