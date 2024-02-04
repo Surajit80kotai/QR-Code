@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { getReportData } from '../../services/slices/UtilitySlice';
+import { getReportData, setDownloadError, setDownloading } from '../../services/slices/UtilitySlice';
 import ReportList from '../../components/core/reportPage/ReportList';
 import ReactPagination from '../../utility/ReactPagination';
 
@@ -21,6 +21,39 @@ const ReportPage = () => {
     const changePage = (newData) => {
         setPageNumber(newData?.selected)
     }
+
+    // handleDownloadReport function
+    const handleDownloadReport = async () => {
+        try {
+            dispatch(setDownloading(true)); // Set the state to indicate that download is in progress
+
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/report/download-excel`, {
+                method: 'GET',
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = new Date() + ".xlsx";
+
+                document.body.appendChild(a);
+                a.click();
+
+                document.body.removeChild(a);
+            } else {
+                console.error('Download failed:', response.statusText);
+                dispatch(setDownloadError('Download failed: ' + response.statusText));
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+            dispatch(setDownloadError('Error: ' + error.message));
+        } finally {
+            dispatch(setDownloading(false));
+        }
+    };
 
 
     useEffect(() => {
@@ -47,7 +80,7 @@ const ReportPage = () => {
                     <div className="col-lg-12">
                         <div className="card mb-4">
                             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-end">
-                                <Link to="#" className="btn btn-primary btn-icon-split">
+                                <Link to="#" onClick={handleDownloadReport} className="btn btn-primary btn-icon-split">
                                     <span className="icon text-white-50">
                                         <i className="fas fa-download"></i>
                                     </span>
