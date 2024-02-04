@@ -1,4 +1,4 @@
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -13,6 +13,13 @@ const Dashboard = () => {
         lat: 20.5937, // Latitude for India
         lng: 78.9629, // Longitude for India
     };
+
+    const highlightedLocations = [
+        { id: 1, lat: 20.5937, lng: 78.9629, label: 'Location 1' },
+        { id: 2, lat: 19.0760, lng: 72.8777, label: 'Location 2' },
+        { id: 3, lat: 28.6139, lng: 77.2090, label: 'Location 3' },
+        { id: 4, lat: 22.5726, lng: 88.3639, label: 'Kolkata' },
+    ];
 
     return (
         <>
@@ -115,8 +122,17 @@ const Dashboard = () => {
                             <GoogleMap
                                 mapContainerStyle={mapContainerStyle}
                                 center={center}
-                                zoom={5} // Set your desired initial zoom level
-                            />
+                                zoom={5}
+                            >
+                                {/* Render markers on the map based on the highlightedLocations data */}
+                                {highlightedLocations.map((location) => (
+                                    <Marker
+                                        key={location.id}
+                                        position={{ lat: location.lat, lng: location.lng }}
+                                        label={location.label}
+                                    />
+                                ))}
+                            </GoogleMap>
                         </LoadScript>
                     </div>
 
