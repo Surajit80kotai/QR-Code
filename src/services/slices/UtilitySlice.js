@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CREATEQRCODE, DASHBOARDDATA, DOWNLOADPDF, GETQRCODE, QRCODETAGS, REPORTDATA, STOREFEEDBACKDATA } from "../Api/ApiInstances";
+import { CASHBACKBACKDATA, CREATEQRCODE, DASHBOARDDATA, DOWNLOADPDF, GETQRCODE, QRCODETAGS, REPORTDATA, STOREFEEDBACKDATA } from "../Api/ApiInstances";
 import toast from "react-hot-toast";
 
 //AsyncThunk For cretae QR code 
@@ -72,11 +72,27 @@ export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navi
     try {
         const response = await STOREFEEDBACKDATA(data, uuid);
         if (response?.data?.data?.data !== "expired" && response?.data?.data?.flag !== false) {
-            navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`);
-            // navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/participation/thankyou`);
-            // navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/congrats`);
+            if (response?.data?.data?.is_lucky) {
+                navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/congrats/${response?.data?.data?.uuid}`);
+            } else {
+                navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/participation/thankyou`);
+            }
+        } else {
+            navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`);
         }
         return response?.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
+// AsyncThunk For cashback data
+export const getCashback = createAsyncThunk('/sl/sm/cashback/form', async ({ data, navigate }, { rejectWithValue }) => {
+    try {
+        const response = await CASHBACKBACKDATA(data);
+        if (response?.data?.data?.data === "thankyou" && response?.data?.data?.flag === true) {
+            navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`);
+        }
     } catch (err) {
         return rejectWithValue(err.response.data);
     }

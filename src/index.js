@@ -26,7 +26,7 @@ root.render(
           <Route path='*' element={<App />} />
         </Route>
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/fd/:uuid?`} element={<UserFeedbackForm />} />
-        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/congrats`} element={<CongratsPage />} />
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/congrats/:uuid?`} element={<CongratsPage />} />
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`} element={<ThankYou />} />
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/participation/thankyou`} element={<ParticipationThankYou />} />
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`} element={<Expired />} />

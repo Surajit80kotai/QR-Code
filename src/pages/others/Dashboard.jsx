@@ -143,7 +143,7 @@ const Dashboard = () => {
                                 <div className="row no-gutters align-items-center">
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-uppercase mb-1">Users who won Cashback</div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.UsedQRCodesCount}</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.USERS_WHO_WON_CASHBACK}</div>
                                         {/* <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 20.4%</span>
                                             <span>Since last month</span>

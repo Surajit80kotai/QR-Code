@@ -30,3 +30,5 @@ export const api = axios.create({ baseURL: process.env.REACT_APP_NODE_HOST });
 
 // store feedback data
 export const STOREFEEDBACKDATA = (data, uuid) => api.post(`/sl/sm/${uuid}`, data);
+// cashback data
+export const CASHBACKBACKDATA = (data) => api.post(`/sl/sm/cashback/form`, data);

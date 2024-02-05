@@ -1,11 +1,17 @@
 import { useFormik } from 'formik';
 import React, { useState, useEffect } from 'react';
 import { cashBackFormValidationSchema } from '../../helper/FormValidation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getCashback } from '../../services/slices/UtilitySlice';
 
 const CongratsPage = () => {
+    const { uuid } = useParams();
     const [isAnimated, setAnimated] = useState(false);
     const [selectedOption, setSelectedOption] = useState('UPI');
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { handleSubmit, handleChange, handleBlur, values, resetForm, errors, touched } = useFormik({
         initialValues: {
@@ -16,11 +22,13 @@ const CongratsPage = () => {
         validationSchema: cashBackFormValidationSchema,
         onSubmit: (formValues) => {
             const formDataToSend = selectedOption === 'UPI'
-                ? { upi_id: formValues.upi_id, mode: "upi" }
-                : { account_number: formValues.account_number, ifsc_code: formValues.ifsc_code, mode: "bank" };
+                ? { upi_id: formValues.upi_id, mode: "upi", uuid: uuid }
+                : { account_number: formValues.account_number, ifsc_code: formValues.ifsc_code, mode: "bank", uuid: uuid };
 
-            console.log(`Submitted data for ${selectedOption}:`, formDataToSend);
+            // console.log(`Submitted data for ${selectedOption}:`, formDataToSend);
+            dispatch(getCashback({ data: formDataToSend, navigate }));
         },
+
     });
 
     const handleToggleOption = (option) => {
