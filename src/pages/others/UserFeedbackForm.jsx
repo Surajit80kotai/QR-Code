@@ -44,44 +44,44 @@ const UserFeedbackForm = () => {
             uuid: uuid,
         },
         validationSchema: feedbackFormValidationSchema,
-        // onSubmit: (values) => {
-        //     // Assign "otherPrice" to "Purchase_Price" if the condition is met
-        //     if (values?.Purchase_Price === 'Other') {
-        //         values.Purchase_Price = values.otherPrice;
-        //     }
-        //     // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
-        //     if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
-        //         values.Purchase_Location = values.otherPurchaseLocation;
-        //     }
-        //     // console.log({ values });
-        //     dispatch(storeFeedbackData({ data: values, navigate, uuid }));
-        // },
+        onSubmit: (values) => {
+            // Assign "otherPrice" to "Purchase_Price" if the condition is met
+            if (values?.Purchase_Price === 'Other') {
+                values.Purchase_Price = values.otherPrice;
+            }
+            // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
+            if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
+                values.Purchase_Location = values.otherPurchaseLocation;
+            }
+            // console.log({ values });
+            dispatch(storeFeedbackData({ data: values, navigate, uuid }));
+        },
 
         // Submit when location access is on
-        onSubmit: async (values) => {
-            if (locationPermission) {
-                try {
-                    const locationData = await getLocationData();
+        // onSubmit: async (values) => {
+        //     if (locationPermission) {
+        //         try {
+        //             const locationData = await getLocationData();
 
-                    // Assign "otherPrice" to "Purchase_Price" if the condition is met
-                    if (values?.Purchase_Price === 'Other') {
-                        values.Purchase_Price = values.otherPrice;
-                    }
+        //             // Assign "otherPrice" to "Purchase_Price" if the condition is met
+        //             if (values?.Purchase_Price === 'Other') {
+        //                 values.Purchase_Price = values.otherPrice;
+        //             }
 
-                    // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
-                    if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
-                        values.Purchase_Location = values.otherPurchaseLocation;
-                    }
+        //             // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
+        //             if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
+        //                 values.Purchase_Location = values.otherPurchaseLocation;
+        //             }
 
-                    values.location = locationData;
-                    dispatch(storeFeedbackData({ data: values, navigate, uuid }));
-                } catch (error) {
-                    console.error("Error getting location data:", error);
-                }
-            } else {
-                alert("Please grant location access to submit the form.");
-            }
-        },
+        //             values.location = locationData;
+        //             dispatch(storeFeedbackData({ data: values, navigate, uuid }));
+        //         } catch (error) {
+        //             console.error("Error getting location data:", error);
+        //         }
+        //     } else {
+        //         alert("Please grant location access to submit the form.");
+        //     }
+        // },
     });
 
     // Access Location
