@@ -16,8 +16,8 @@ const CongratsPage = () => {
         validationSchema: cashBackFormValidationSchema,
         onSubmit: (formValues) => {
             const formDataToSend = selectedOption === 'UPI'
-                ? { upi_id: formValues.upi_id }
-                : { account_number: formValues.account_number, ifsc_code: formValues.ifsc_code };
+                ? { upi_id: formValues.upi_id, mode: "upi" }
+                : { account_number: formValues.account_number, ifsc_code: formValues.ifsc_code, mode: "bank" };
 
             console.log(`Submitted data for ${selectedOption}:`, formDataToSend);
         },
