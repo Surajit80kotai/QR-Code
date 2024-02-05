@@ -16,15 +16,18 @@ const UserFeedbackForm = () => {
     const navigate = useNavigate();
     const { feedbackData, loading } = useSelector((state) => state.UtilitySlice);
 
-    const purchasePriceMapping = useMemo(() => ({
-        'Bharat Atta': '₹27.50 (in case of Bharat Atta)',
-        'Bharat Rice': '₹29.00 (in case of Bharat Rice)',
-        'Bharat Chana Dal': '₹60.00 (in case of Bharat Chana Dal)',
-        'Bharat Moong Sabut Dal': '₹ 93 (in case of Bharat Sabut Moong Dal)',
-        'Bharat Moong Dhuli Dal': '₹ 107 (in case of Bharat Dhuli Moong Dal)',
-    }), []);
+    const purchasePriceMapping = useMemo(
+        () => ({
+            'Bharat Atta': '₹27.50 (in case of Bharat Atta)',
+            'Bharat Rice': '₹29.00 (in case of Bharat Rice)',
+            'Bharat Chana Dal': '₹60.00 (in case of Bharat Chana Dal)',
+            'Bharat Moong Sabut Dal': '₹ 93 (in case of Bharat Sabut Moong Dal)',
+            'Bharat Moong Dhuli Dal': '₹ 107 (in case of Bharat Dhuli Moong Dal)',
+        }),
+        []
+    );
 
-    const { values, errors, touched, isValid, setFieldValue, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { values, errors, touched, isValid, setFieldValue, handleBlur, handleChange, handleSubmit, } = useFormik({
         initialValues: {
             full_name: '',
             // upi_id: '',
@@ -37,54 +40,34 @@ const UserFeedbackForm = () => {
             Quality_Rating: '',
             Future_Purchases: '',
             Additional_Comments: '',
-            location: {
-                lat: 22.5726,
-                lng: 88.3639
-            },
             uuid: uuid,
         },
         validationSchema: feedbackFormValidationSchema,
-        onSubmit: (values) => {
-            // Assign "otherPrice" to "Purchase_Price" if the condition is met
-            if (values?.Purchase_Price === 'Other') {
-                values.Purchase_Price = values.otherPrice;
+        onSubmit: async (values) => {
+            if (locationPermission) {
+                try {
+                    const locationData = await getLocationData();
+                    // Assign "otherPrice" to "Purchase_Price" if the condition is met
+                    if (values?.Purchase_Price === 'Other') {
+                        values.Purchase_Price = values.otherPrice;
+                    }
+
+                    // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
+                    if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
+                        values.Purchase_Location = values.otherPurchaseLocation;
+                    }
+
+                    values.location = locationData;
+                    dispatch(storeFeedbackData({ data: values, navigate, uuid }));
+                } catch (error) {
+                    console.error('Error getting location data:', error);
+                }
+            } else {
+                alert('Please grant location access to submit the form.');
             }
-            // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
-            if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
-                values.Purchase_Location = values.otherPurchaseLocation;
-            }
-            // console.log({ values });
-            dispatch(storeFeedbackData({ data: values, navigate, uuid }));
         },
-
-        // Submit when location access is on
-        // onSubmit: async (values) => {
-        //     if (locationPermission) {
-        //         try {
-        //             const locationData = await getLocationData();
-
-        //             // Assign "otherPrice" to "Purchase_Price" if the condition is met
-        //             if (values?.Purchase_Price === 'Other') {
-        //                 values.Purchase_Price = values.otherPrice;
-        //             }
-
-        //             // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
-        //             if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
-        //                 values.Purchase_Location = values.otherPurchaseLocation;
-        //             }
-
-        //             values.location = locationData;
-        //             dispatch(storeFeedbackData({ data: values, navigate, uuid }));
-        //         } catch (error) {
-        //             console.error("Error getting location data:", error);
-        //         }
-        //     } else {
-        //         alert("Please grant location access to submit the form.");
-        //     }
-        // },
     });
 
-    // Access Location
     const getLocationData = () => {
         return new Promise((resolve, reject) => {
             if (navigator.geolocation) {
@@ -94,13 +77,13 @@ const UserFeedbackForm = () => {
                         resolve({ latitude, longitude });
                     },
                     (error) => {
-                        console.error(error.message);
+                        console.error('Error getting location:', error);
                         reject(error);
                     }
                 );
             } else {
-                console.error("Geolocation is not supported by this browser.");
-                reject(new Error("Geolocation not supported"));
+                console.error('Geolocation is not supported by this browser.');
+                reject(new Error('Geolocation not supported'));
             }
         });
     };
@@ -111,6 +94,16 @@ const UserFeedbackForm = () => {
             .then((result) => {
                 if (result.state === 'granted') {
                     setLocationPermission(true);
+                } else if (result.state === 'prompt') {
+                    navigator.geolocation.getCurrentPosition(
+                        () => {
+                            setLocationPermission(true);
+                        },
+                        (error) => {
+                            console.error('Error getting location:', error);
+                            setLocationPermission(false);
+                        }
+                    );
                 } else {
                     setLocationPermission(false);
                 }
@@ -131,10 +124,7 @@ const UserFeedbackForm = () => {
             );
         }
 
-        if (
-            feedbackData?.data?.data === 'expired' &&
-            feedbackData?.data?.flag === false
-        ) {
+        if (feedbackData?.data?.data === 'expired' && feedbackData?.data?.flag === false) {
             navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`);
         }
 
@@ -146,7 +136,6 @@ const UserFeedbackForm = () => {
     // Update Purchase_Price when Recent_Purchases changes
     useEffect(() => {
         if (values.Recent_Purchases && purchasePriceMapping[values.Recent_Purchases]) {
-            // Use setFieldValue instead of setValues
             setFieldValue('Purchase_Price', purchasePriceMapping[values.Recent_Purchases]);
         }
     }, [values.Recent_Purchases, purchasePriceMapping, setFieldValue]);
@@ -201,25 +190,25 @@ const UserFeedbackForm = () => {
 
                                 {/* UPI ID */}
                                 {/* <div className="col-md-6">
-                                    <div className="mb-3">
-                                        <label htmlFor="upi_id" className="form-label">
-                                            Please enter your UPI ID <span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="upi_id"
-                                            name="upi_id"
-                                            value={values?.upi_id}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            style={{ border: errors.upi_id && touched.upi_id ? '1px solid red' : null }}
-                                        />
-                                        {errors.upi_id && touched.upi_id && (
-                                            <small className="form-text text-danger">*{errors.upi_id}</small>
-                                        )}
-                                    </div>
-                                </div> */}
+                                <div className="mb-3">
+                                    <label htmlFor="upi_id" className="form-label">
+                                        Please enter your UPI ID <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="upi_id"
+                                        name="upi_id"
+                                        value={values?.upi_id}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        style={{ border: errors.upi_id && touched.upi_id ? '1px solid red' : null }}
+                                    />
+                                    {errors.upi_id && touched.upi_id && (
+                                        <small className="form-text text-danger">*{errors.upi_id}</small>
+                                    )}
+                                </div>
+                            </div> */}
 
                                 {/* Mobile Number */}
                                 <div className="col-md-6">
