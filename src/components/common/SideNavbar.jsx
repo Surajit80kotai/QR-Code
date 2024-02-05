@@ -35,10 +35,16 @@ const SideNavbar = () => {
             to: `${process.env.REACT_APP_BASE_URL_PREFIX}/taglist`,
         },
         {
-            id: 'report',
-            text: 'Report',
+            id: 'cashback_report',
+            text: 'Cashback Report',
             icon: 'fas fa-file-alt',
-            to: `${process.env.REACT_APP_BASE_URL_PREFIX}/report`,
+            to: `${process.env.REACT_APP_BASE_URL_PREFIX}/cashback/report`,
+        },
+        {
+            id: 'user_data_report',
+            text: 'User Data Report',
+            icon: 'far fa-address-card',
+            to: `${process.env.REACT_APP_BASE_URL_PREFIX}/user/data/report`,
         },
     ];
 

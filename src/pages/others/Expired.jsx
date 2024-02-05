@@ -1,13 +1,17 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 const Expired = () => {
-    const navigate = useNavigate();
+    const [isAnimated, setAnimated] = useState(false);
+
+    useEffect(() => {
+        // Set isAnimated to true after the component mounts
+        setAnimated(true);
+    }, []);
 
     return (
         <>
-            <div className="vh-100 d-flex justify-content-center align-items-center">
-                <div className='shadow-lg p-3 mb-5 bg-body rounded' style={{ width: "800px" }}>
+            <div className={`vh-100 d-flex justify-content-center align-items-center ${isAnimated ? 'overlay-show' : 'overlay-hide'}`}>
+                <div className={`shadow-lg p-3 mb-5 bg-body rounded ${isAnimated ? 'popup-show' : 'popup-hide'}`} style={{ width: "800px", opacity: isAnimated ? 1 : 0, transition: "opacity 0.5s ease-in-out" }}>
                     <div className="mb-4 text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="text-danger bi bi-x-circle-fill" width="75" height="75"
                             fill="currentColor" viewBox="0 0 16 16">
@@ -17,15 +21,11 @@ const Expired = () => {
                     </div>
                     <div className="text-center">
                         <h1>Link Expired !</h1>
-                        <button
-                            className="btn btn-sm btn-info mt-3"
-                            onClick={() => navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/taglist`)}
-                        >Go Back </button>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }
 
-export default Expired
+export default Expired;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { clearFeedbackData, storeFeedbackData } from '../../services/slices/UtilitySlice';
@@ -16,10 +16,18 @@ const UserFeedbackForm = () => {
     const navigate = useNavigate();
     const { feedbackData, loading } = useSelector((state) => state.UtilitySlice);
 
-    const { values, errors, touched, isValid, handleBlur, handleChange, handleSubmit } = useFormik({
+    const purchasePriceMapping = useMemo(() => ({
+        'Bharat Atta': '₹27.50 (in case of Bharat Atta)',
+        'Bharat Rice': '₹29.00 (in case of Bharat Rice)',
+        'Bharat Chana Dal': '₹60.00 (in case of Bharat Chana Dal)',
+        'Bharat Moong Sabut Dal': '₹ 93 (in case of Bharat Sabut Moong Dal)',
+        'Bharat Moong Dhuli Dal': '₹ 107 (in case of Bharat Dhuli Moong Dal)',
+    }), []);
+
+    const { values, errors, touched, isValid, setFieldValue, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: {
             full_name: '',
-            upi_id: '',
+            // upi_id: '',
             mobile_number: '',
             Recent_Purchases: '',
             Purchase_Location: '',
@@ -36,66 +44,66 @@ const UserFeedbackForm = () => {
             uuid: uuid,
         },
         validationSchema: feedbackFormValidationSchema,
-        onSubmit: (values) => {
-            // Assign "otherPrice" to "Purchase_Price" if the condition is met
-            if (values?.Purchase_Price === 'Other') {
-                values.Purchase_Price = values.otherPrice;
-            }
-            // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
-            if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
-                values.Purchase_Location = values.otherPurchaseLocation;
-            }
-            // console.log({ values });
-            dispatch(storeFeedbackData({ data: values, navigate, uuid }));
-        },
-
-        // // Submit when location access is on
-        // onSubmit: async (values) => {
-        //     if (locationPermission) {
-        //         try {
-        //             const locationData = await getLocationData();
-
-        //             // Assign "otherPrice" to "Purchase_Price" if the condition is met
-        //             if (values?.Purchase_Price === 'Other') {
-        //                 values.Purchase_Price = values.otherPrice;
-        //             }
-
-        //             // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
-        //             if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
-        //                 values.Purchase_Location = values.otherPurchaseLocation;
-        //             }
-
-        //             values.location = locationData;
-        //             dispatch(storeFeedbackData({ data: values, navigate, uuid }));
-        //         } catch (error) {
-        //             console.error("Error getting location data:", error);
-        //         }
-        //     } else {
-        //         alert("Please grant location access to submit the form.");
+        // onSubmit: (values) => {
+        //     // Assign "otherPrice" to "Purchase_Price" if the condition is met
+        //     if (values?.Purchase_Price === 'Other') {
+        //         values.Purchase_Price = values.otherPrice;
         //     }
+        //     // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
+        //     if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
+        //         values.Purchase_Location = values.otherPurchaseLocation;
+        //     }
+        //     // console.log({ values });
+        //     dispatch(storeFeedbackData({ data: values, navigate, uuid }));
         // },
+
+        // Submit when location access is on
+        onSubmit: async (values) => {
+            if (locationPermission) {
+                try {
+                    const locationData = await getLocationData();
+
+                    // Assign "otherPrice" to "Purchase_Price" if the condition is met
+                    if (values?.Purchase_Price === 'Other') {
+                        values.Purchase_Price = values.otherPrice;
+                    }
+
+                    // Assign "otherPurchaseLocation" to "Purchase_Location" if the condition is met
+                    if (values?.Purchase_Location === 'Other' || values?.Purchase_Location === 'Any other') {
+                        values.Purchase_Location = values.otherPurchaseLocation;
+                    }
+
+                    values.location = locationData;
+                    dispatch(storeFeedbackData({ data: values, navigate, uuid }));
+                } catch (error) {
+                    console.error("Error getting location data:", error);
+                }
+            } else {
+                alert("Please grant location access to submit the form.");
+            }
+        },
     });
 
-    // // Access Location
-    // const getLocationData = () => {
-    //     return new Promise((resolve, reject) => {
-    //         if (navigator.geolocation) {
-    //             navigator.geolocation.getCurrentPosition(
-    //                 (position) => {
-    //                     const { latitude, longitude } = position.coords;
-    //                     resolve({ latitude, longitude });
-    //                 },
-    //                 (error) => {
-    //                     console.error(error.message);
-    //                     reject(error);
-    //                 }
-    //             );
-    //         } else {
-    //             console.error("Geolocation is not supported by this browser.");
-    //             reject(new Error("Geolocation not supported"));
-    //         }
-    //     });
-    // };
+    // Access Location
+    const getLocationData = () => {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        resolve({ latitude, longitude });
+                    },
+                    (error) => {
+                        console.error(error.message);
+                        reject(error);
+                    }
+                );
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+                reject(new Error("Geolocation not supported"));
+            }
+        });
+    };
 
     const requestLocationAccess = () => {
         navigator.permissions
@@ -135,6 +143,14 @@ const UserFeedbackForm = () => {
         };
     }, [dispatch, navigate, feedbackData, locationPermission, locationAlertShown]);
 
+    // Update Purchase_Price when Recent_Purchases changes
+    useEffect(() => {
+        if (values.Recent_Purchases && purchasePriceMapping[values.Recent_Purchases]) {
+            // Use setFieldValue instead of setValues
+            setFieldValue('Purchase_Price', purchasePriceMapping[values.Recent_Purchases]);
+        }
+    }, [values.Recent_Purchases, purchasePriceMapping, setFieldValue]);
+
     return (
         <>
             {/* loader */}
@@ -156,6 +172,7 @@ const UserFeedbackForm = () => {
                     <div className="form_area">
                         <h6 className="text-center text-primary" style={{ fontSize: '20px', fontWeight: 'bold' }}>
                             Please take a moment to fill out this feedback form regarding your experience with Bharat Products. Your insights are invaluable to us and will help us improve our offerings.
+                            By filling in form pls give your consent to enter into lottery and receive a cashback of upto Rs. 10 by filling in the form.
                         </h6>
 
                         <form onSubmit={handleSubmit}>
@@ -183,7 +200,7 @@ const UserFeedbackForm = () => {
                                 </div>
 
                                 {/* UPI ID */}
-                                <div className="col-md-6">
+                                {/* <div className="col-md-6">
                                     <div className="mb-3">
                                         <label htmlFor="upi_id" className="form-label">
                                             Please enter your UPI ID <span className="text-danger">*</span>
@@ -202,7 +219,7 @@ const UserFeedbackForm = () => {
                                             <small className="form-text text-danger">*{errors.upi_id}</small>
                                         )}
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Mobile Number */}
                                 <div className="col-md-6">
@@ -243,11 +260,11 @@ const UserFeedbackForm = () => {
                                             style={{ border: errors.Recent_Purchases && touched.Recent_Purchases ? '1px solid red' : null }}
                                         >
                                             <option value="" label="Select Bharat product" />
-                                            <option value="Bharat Chana Dal">Bharat Chana Dal</option>
-                                            <option value="Bharat Moong Dhuli Dal">Bharat Moong Dhuli Dal</option>
-                                            <option value="Bharat Moong Sabut Dal">Bharat Moong Sabut Dal</option>
-                                            <option value="Bharat Rice">Bharat Rice</option>
                                             <option value="Bharat Atta">Bharat Atta</option>
+                                            <option value="Bharat Rice">Bharat Rice</option>
+                                            <option value="Bharat Chana Dal">Bharat Chana Dal</option>
+                                            <option value="Bharat Moong Sabut Dal">Bharat Moong Sabut Dal</option>
+                                            <option value="Bharat Moong Dhuli Dal">Bharat Moong Dhuli Dal</option>
                                         </select>
                                         {errors.Recent_Purchases && touched.Recent_Purchases && (
                                             <small className="form-text text-danger">*{errors.Recent_Purchases}</small>
@@ -324,11 +341,11 @@ const UserFeedbackForm = () => {
                                             style={{ border: errors.Purchase_Price && touched.Purchase_Price ? '1px solid red' : null }}
                                         >
                                             <option value="" label="Select purchase price" />
-                                            <option value="₹27.50 (in case of Bharat Atta)">₹27.50 (in case of Bharat Atta)</option>
-                                            <option value="₹29.00 (in case of Bharat Rice)">₹29.00 (in case of Bharat Rice)</option>
-                                            <option value="₹60.00 (in case of Bharat Chana Dal)">₹60.00 (in case of Bharat Chana Dal)</option>
-                                            <option value="Rs. 93 (in case of Bharat Sabut Moong Dal)">Rs. 93 (in case of Bharat Sabut Moong Dal)</option>
-                                            <option value="Rs. 107 (in case of Bharat Dhuli Moong Dal)">Rs. 107 (in case of Bharat Dhuli Moong Dal)</option>
+                                            <option value="₹27.50 (in case of Bharat Atta)">₹ 27.50 (in case of Bharat Atta)</option>
+                                            <option value="₹29.00 (in case of Bharat Rice)">₹ 29.00 (in case of Bharat Rice)</option>
+                                            <option value="₹60.00 (in case of Bharat Chana Dal)">₹ 60.00 (in case of Bharat Chana Dal)</option>
+                                            <option value="₹ 93 (in case of Bharat Sabut Moong Dal)">₹ 93 (in case of Bharat Sabut Moong Dal)</option>
+                                            <option value="₹ 107 (in case of Bharat Dhuli Moong Dal)">₹ 107 (in case of Bharat Dhuli Moong Dal)</option>
                                             <option value="Other">Other</option>
                                         </select>
                                         {errors.Purchase_Price && touched.Purchase_Price && (

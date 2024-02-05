@@ -53,7 +53,7 @@ const Dashboard = () => {
                 </div> */}
 
                 <div className="row mb-3">
-                    {/* <!-- Earnings (Monthly) Card Example --> */}
+                    {/* Total Cashback */}
                     <div className="col-xl-4 col-md-6 mb-4">
                         <div className="card h-100">
                             <div className="card-body">
@@ -75,13 +75,13 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* <!-- Earnings (Annual) Card Example --> */}
+                    {/* Total QR Codes */}
                     <div className="col-xl-4 col-md-6 mb-4">
                         <div className="card h-100">
                             <div className="card-body">
                                 <div className="row no-gutters align-items-center">
                                     <div className="col mr-2">
-                                        <div className="text-xs font-weight-bold text-uppercase mb-1">Total QR Create</div>
+                                        <div className="text-xs font-weight-bold text-uppercase mb-1">Total QR Codes</div>
                                         <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.AllQRCodesCount}</div>
                                         {/* <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 12%</span>
@@ -97,13 +97,13 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* <!-- New User Card Example --> */}
+                    {/* Total Unique QR Scaned */}
                     <div className="col-xl-4 col-md-6 mb-4">
                         <div className="card h-100">
                             <div className="card-body">
                                 <div className="row no-gutters align-items-center">
                                     <div className="col mr-2">
-                                        <div className="text-xs font-weight-bold text-uppercase mb-1">Total QR Scaned</div>
+                                        <div className="text-xs font-weight-bold text-uppercase mb-1">Total Unique QR Scaned</div>
                                         <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.UsedQRCodesCount}</div>
                                         {/* <div className="mt-2 mb-0 text-muted text-xs">
                                             <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 20.4%</span>
@@ -112,6 +112,46 @@ const Dashboard = () => {
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-qrcode fa-2x text-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-xl-4 col-md-6 mb-4">
+                        <div className="card h-100">
+                            <div className="card-body">
+                                <div className="row no-gutters align-items-center">
+                                    <div className="col mr-2">
+                                        <div className="text-xs font-weight-bold text-uppercase mb-1">Forms Submitted</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.UsedQRCodesCount}</div>
+                                        {/* <div className="mt-2 mb-0 text-muted text-xs">
+                                            <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 20.4%</span>
+                                            <span>Since last month</span>
+                                        </div> */}
+                                    </div>
+                                    <div className="col-auto">
+                                        <i className="fab fa-wpforms fa-2x text-danger"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-xl-4 col-md-6 mb-4">
+                        <div className="card h-100">
+                            <div className="card-body">
+                                <div className="row no-gutters align-items-center">
+                                    <div className="col mr-2">
+                                        <div className="text-xs font-weight-bold text-uppercase mb-1">Users who won Cashback</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{dashboardData?.UsedQRCodesCount}</div>
+                                        {/* <div className="mt-2 mb-0 text-muted text-xs">
+                                            <span className="text-success mr-2"><i className="fas fa-arrow-up"></i> 20.4%</span>
+                                            <span>Since last month</span>
+                                        </div> */}
+                                    </div>
+                                    <div className="col-auto">
+                                        <i className="fas fa-user fa-2x text-warning"></i>
                                     </div>
                                 </div>
                             </div>

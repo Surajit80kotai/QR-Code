@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserLogin, clearError } from '../../services/slices/AuthSlice';
 import { useFormik } from 'formik';
@@ -123,9 +123,9 @@ const Login = () => {
 
                                             </form>
                                             <hr />
-                                            <div className="text-center">
+                                            {/* <div className="text-center">
                                                 <Link className="font-weight-bold small" to={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/register`}>Create an Account!</Link>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>

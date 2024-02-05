@@ -21,8 +21,16 @@ const Create = () => {
     initialValues,
     validationSchema: createQRtagSchema,
     onSubmit: (values) => {
-      const data = { ...values };
-      dispatch(createQRcode({ data, navigate }));
+      const trimmedValues = Object.keys(values).reduce((acc, key) => {
+        if (["count", "cashback_lucky_users", "cashback_amount"].includes(key)) {
+          acc[key] = values[key].replace(/\s/g, "");
+        } else {
+          acc[key] = values[key].trim();
+        }
+        return acc;
+      }, {});
+      // console.log({ trimmedValues });
+      dispatch(createQRcode({ data: trimmedValues, navigate }));
     }
   });
 

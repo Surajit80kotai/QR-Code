@@ -73,6 +73,8 @@ export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navi
         const response = await STOREFEEDBACKDATA(data, uuid);
         if (response?.data?.data?.data !== "expired" && response?.data?.data?.flag !== false) {
             navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`);
+            // navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/participation/thankyou`);
+            // navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/congrats`);
         }
         return response?.data;
     } catch (err) {
