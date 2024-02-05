@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, MarkerClusterer } from '@react-google-maps/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getDashboardData } from '../../services/slices/UtilitySlice';
 
 const Dashboard = () => {
-
     const mapContainerStyle = {
         height: '100%',
         width: '100%',
@@ -162,26 +161,45 @@ const Dashboard = () => {
                     <div className="col-xl-12 col-lg-7">
                         <LoadScript
                             googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}
+                            loadingElement={<div style={{ height: '100%' }} />}
+                            onLoad={() => console.log('Google Maps API loaded successfully')}
                         >
                             <GoogleMap
                                 mapContainerStyle={mapContainerStyle}
                                 center={center}
                                 zoom={5}
                             >
-                                {/* Render markers on the map based on the highlightedLocations data */}
-                                {dashboardData?.HighlightedLocations?.map((location) => (
-                                    <Marker
-                                        key={location.id}
-                                        position={{ lat: location.lat, lng: location.lng }}
-                                        label={location.label}
-                                    />
-                                ))}
+                                {/* Render markers on the map based on the dashboardData?.HighlightedLocations data */}
+                                <MarkerClusterer
+                                    gridSize={60}
+                                    minimumClusterSize={2}
+                                    enableRetinaIcons={true}
+                                    styles={[
+                                        {
+                                            textColor: 'white',
+                                            url: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m1.png',
+                                            height: 53,
+                                            width: 53,
+                                        },
+                                    ]}
+                                >
+                                    {(clusterer) =>
+                                        dashboardData?.HighlightedLocations?.map((location) => (
+                                            <Marker
+                                                key={location.id}
+                                                position={{ lat: location.lat, lng: location.lng }}
+                                                label={location.label}
+                                                clusterer={clusterer}
+                                            />
+                                        ))
+                                    }
+                                </MarkerClusterer>
                             </GoogleMap>
                         </LoadScript>
                     </div>
 
                 </div>
-            </div>
+            </div >
         </>
     )
 }
