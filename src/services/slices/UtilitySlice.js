@@ -90,9 +90,10 @@ export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navi
 export const getCashback = createAsyncThunk('/sl/sm/cashback/form', async ({ data, navigate }, { rejectWithValue }) => {
     try {
         const response = await CASHBACKBACKDATA(data);
-        if (response?.data?.data?.data === "thankyou" && response?.data?.data?.flag === true) {
+        if (response?.data?.data === "thankyou" && response?.data?.flag === true) {
             navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/thankyou`);
         }
+        return response?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
     }
@@ -262,6 +263,20 @@ const UtilitySlice = createSlice({
             state.status = "Failed";
             state.loading = false;
             state.error = payload;
+        });
+
+        //States for getCashback
+        builder.addCase(getCashback.pending, (state, { payload }) => {
+            state.status = "Loading...";
+            state.loading = true;
+        })
+        builder.addCase(getCashback.fulfilled, (state, { payload }) => {
+            state.status = "Success";
+            state.loading = false;
+        })
+        builder.addCase(getCashback.rejected, (state, { payload }) => {
+            state.status = "Failed";
+            state.loading = false;
         });
     }
 })

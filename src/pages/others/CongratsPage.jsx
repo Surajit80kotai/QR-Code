@@ -2,8 +2,9 @@ import { useFormik } from 'formik';
 import React, { useState, useEffect } from 'react';
 import { cashBackFormValidationSchema } from '../../helper/FormValidation';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCashback } from '../../services/slices/UtilitySlice';
+import AllPageLoader from '../../utility/AllPageLoader';
 
 const CongratsPage = () => {
     const { uuid } = useParams();
@@ -12,6 +13,7 @@ const CongratsPage = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { loading } = useSelector(state => state.UtilitySlice);
 
     const { handleSubmit, handleChange, handleBlur, values, resetForm, errors, touched } = useFormik({
         initialValues: {
@@ -43,6 +45,9 @@ const CongratsPage = () => {
 
     return (
         <>
+            {/* Loader */}
+            {loading && <AllPageLoader />}
+
             <div className="vh-100 d-flex justify-content-center align-items-center">
                 <div className='shadow-lg p-3 mb-5 bg-body rounded' style={{ width: "800px", opacity: isAnimated ? 1 : 0, transition: "opacity 0.5s ease-in-out" }}>
                     <div className="mb-4 text-center">
