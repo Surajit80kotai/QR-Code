@@ -61,7 +61,7 @@ const CongratsPage = () => {
                     </div>
                     <div className="text-center">
                         <h1>Congratulations !</h1>
-                        <p>You have been awarded a cashback of ₹10. To claim your reward, please provide your UPI ID or bank details.</p>
+                        <p>You have been awarded a cashback of ₹5. To claim your reward, please provide your UPI ID or bank details.</p>
                     </div>
                     <div className="container mt-5">
                         <div className="form_area">
