@@ -7,6 +7,13 @@ import { createQRtagSchema } from '../../helper/FormValidation';
 
 
 const Create = () => {
+  // header
+  const header = {
+    headers: {
+      Authorization: `Bearer ${JSON.parse(window.localStorage.getItem("token"))}`
+    }
+  }
+
   const initialValues = {
     tag: "",
     count: "",
@@ -30,7 +37,7 @@ const Create = () => {
         return acc;
       }, {});
       // console.log({ trimmedValues });
-      dispatch(createQRcode({ data: trimmedValues, navigate }));
+      dispatch(createQRcode({ data: trimmedValues, navigate, header }));
     }
   });
 

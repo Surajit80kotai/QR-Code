@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import List from '../../components/core/tagList/List';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,15 @@ import { getQRcodeTags } from '../../services/slices/UtilitySlice';
 import ReactPagination from '../../utility/ReactPagination';
 
 const Taglist = () => {
+    // header
+    const header = useMemo(() => {
+        return {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(window.localStorage.getItem("token"))}`
+            }
+        };
+    }, []);
+
     const [tagData, setTagData] = useState();
     const [pageNumber, setPageNumber] = useState(0);
     const dispatch = useDispatch();
@@ -22,8 +31,8 @@ const Taglist = () => {
     }
 
     useEffect(() => {
-        dispatch(getQRcodeTags());
-    }, [dispatch]);
+        dispatch(getQRcodeTags(header));
+    }, [dispatch, header]);
 
     useEffect(() => {
         setTagData(data)

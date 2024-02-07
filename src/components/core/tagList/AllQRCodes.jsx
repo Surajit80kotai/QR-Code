@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom'
 import {
@@ -10,6 +10,15 @@ import { Pagination } from 'react-bootstrap';
 
 
 const AllQRCodes = () => {
+    // header
+    const header = useMemo(() => {
+        return {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(window.localStorage.getItem("token"))}`
+            }
+        };
+    }, []);
+
     // State for current page
     const [currentPage, setCurrentPage] = useState(1);
     const [toogleButton, setToogleButton] = useState(true);
@@ -123,13 +132,13 @@ const AllQRCodes = () => {
     // refresh function
     const handlePageRefresh = () => {
         if (QRdata?.TOTAL_QRS_LENGTH !== QRdata?.TAG_DATA_COUNT) {
-            dispatch(getQRcode({ flag, page: currentPage, pageSize }));
+            dispatch(getQRcode({ flag, page: currentPage, pageSize, header }));
         }
     }
 
     useEffect(() => {
-        dispatch(getQRcode({ flag, page: currentPage, pageSize }));
-    }, [dispatch, flag, currentPage, pageSize]);
+        dispatch(getQRcode({ flag, page: currentPage, pageSize, header }));
+    }, [dispatch, flag, currentPage, pageSize, header]);
 
     useEffect(() => {
         if (QRdata?.TOTAL_QRS_LENGTH !== QRdata?.TAG_DATA_COUNT) {

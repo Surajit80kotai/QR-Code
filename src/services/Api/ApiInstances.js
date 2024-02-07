@@ -7,19 +7,19 @@ export const LOGIN = (data) => API.post('/auth/admin/login', data);
 // Registration api
 export const REGISTRATION = (data) => API.post('/auth/admin/registration', data);
 // create QR code
-export const CREATEQRCODE = (data) => API.post('/qrcode/create', data);
+export const CREATEQRCODE = (data, header) => API.post('/qrcode/create', data, header);
 // get QRcode tags
-export const QRCODETAGS = () => API.get('/qrcode/tags');
+export const QRCODETAGS = (header) => API.get('/qrcode/tags', header);
 // get QRcode
-export const GETQRCODE = (flag, page, pageSize) => API.get(`/qrcode/get/${flag}`, { params: { page, pageSize } });
+export const GETQRCODE = (flag, page, pageSize, header) => API.get(`/qrcode/get/${flag}`, header, { params: { page, pageSize } });
 // get download Pdf
-export const DOWNLOADPDF = (flag) => API.get(`/qrcode/pdf/${flag}`);
+export const DOWNLOADPDF = (flag, header) => API.get(`/qrcode/pdf/${flag}`, header);
 // dashboard data
-export const DASHBOARDDATA = () => API.get(`/dashboard/data`);
+export const DASHBOARDDATA = (header) => API.get(`/dashboard/data`, header);
 // report data
-export const REPORTDATA = () => API.get(`/report/data`);
+export const REPORTDATA = (header) => API.get(`/report/data`, header);
 // download report data
-export const DOWNLOADREPORTDATA = () => API.get(`/report/download-excel`);
+export const DOWNLOADREPORTDATA = (header) => API.get(`/report/download-excel`, header);
 
 
 

@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { GoogleMap, LoadScript, Marker, MarkerClusterer } from '@react-google-maps/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getDashboardData } from '../../services/slices/UtilitySlice';
 
 const Dashboard = () => {
+    // header
+    const header = useMemo(() => {
+        return {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(window.localStorage.getItem("token"))}`
+            }
+        };
+    }, []);
+
     const mapContainerStyle = {
         height: '100%',
         width: '100%',
@@ -20,8 +29,8 @@ const Dashboard = () => {
     const { dashboardData } = useSelector(state => state.UtilitySlice);
 
     useEffect(() => {
-        dispatch(getDashboardData());
-    }, [dispatch]);
+        dispatch(getDashboardData(header));
+    }, [dispatch, header]);
 
     return (
         <>

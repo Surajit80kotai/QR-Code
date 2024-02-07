@@ -3,9 +3,9 @@ import { CASHBACKBACKDATA, CREATEQRCODE, DASHBOARDDATA, DOWNLOADPDF, GETQRCODE, 
 import toast from "react-hot-toast";
 
 //AsyncThunk For cretae QR code 
-export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data, navigate }, { rejectWithValue }) => {
+export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data, navigate, header }, { rejectWithValue }) => {
     try {
-        const result = await CREATEQRCODE(data);
+        const result = await CREATEQRCODE(data, header);
         if (result?.data) {
             navigate(`${process.env.REACT_APP_BASE_URL_PREFIX}/taglist`);
             toast.success("Tag added successfully..!!", {
@@ -27,9 +27,9 @@ export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data, na
 });
 
 //AsyncThunk For get QRcode tags
-export const getQRcodeTags = createAsyncThunk("/qrcode/tags", async (payload, { rejectWithValue }) => {
+export const getQRcodeTags = createAsyncThunk("/qrcode/tags", async (header, { rejectWithValue }) => {
     try {
-        const result = await QRCODETAGS();
+        const result = await QRCODETAGS(header);
         return result?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
@@ -37,9 +37,9 @@ export const getQRcodeTags = createAsyncThunk("/qrcode/tags", async (payload, { 
 });
 
 // AsyncThunk For get QRcode
-export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag, page, pageSize }, { rejectWithValue }) => {
+export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag, page, pageSize, header }, { rejectWithValue }) => {
     try {
-        const result = await GETQRCODE(flag, page, pageSize);
+        const result = await GETQRCODE(flag, page, pageSize, header);
         return result?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
@@ -47,9 +47,9 @@ export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag, page, p
 });
 
 // AsyncThunk For downloadPdf
-export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag }, { rejectWithValue }) => {
+export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag, header }, { rejectWithValue }) => {
     try {
-        const response = await DOWNLOADPDF(flag);
+        const response = await DOWNLOADPDF(flag, header);
         if (response?.statusText === "OK") {
             toast.success(response?.data?.message, {
                 style: {
@@ -82,6 +82,19 @@ export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navi
         }
         return response?.data;
     } catch (err) {
+        if (!err?.response?.data?.success) {
+            toast.error(err?.response?.data?.message, {
+                duration: 3000,
+                style: {
+                    background: "black",
+                    color: "white",
+                },
+                iconTheme: {
+                    primary: '#FFF',
+                    secondary: 'red',
+                },
+            });
+        }
         return rejectWithValue(err.response.data);
     }
 });
@@ -95,14 +108,27 @@ export const getCashback = createAsyncThunk('/sl/sm/cashback/form', async ({ dat
         }
         return response?.data;
     } catch (err) {
+        if (!err?.response?.data?.success) {
+            toast.error(err?.response?.data?.message, {
+                duration: 3000,
+                style: {
+                    background: "black",
+                    color: "white",
+                },
+                iconTheme: {
+                    primary: '#FFF',
+                    secondary: 'red',
+                },
+            });
+        }
         return rejectWithValue(err.response.data);
     }
 });
 
 // AsyncThunk For get dashboard data
-export const getDashboardData = createAsyncThunk("/dashboard/data", async (payload, { rejectWithValue }) => {
+export const getDashboardData = createAsyncThunk("/dashboard/data", async (header, { rejectWithValue }) => {
     try {
-        const result = await DASHBOARDDATA();
+        const result = await DASHBOARDDATA(header);
         return result?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
@@ -110,9 +136,9 @@ export const getDashboardData = createAsyncThunk("/dashboard/data", async (paylo
 });
 
 // AsyncThunk For get report data
-export const getReportData = createAsyncThunk("/report/data", async (payload, { rejectWithValue }) => {
+export const getReportData = createAsyncThunk("/report/data", async (header, { rejectWithValue }) => {
     try {
-        const result = await REPORTDATA();
+        const result = await REPORTDATA(header);
         return result?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);

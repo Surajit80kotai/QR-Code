@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { getReportData, setDownloadError, setDownloading } from '../../services/slices/UtilitySlice';
@@ -6,6 +6,15 @@ import ReportList from '../../components/core/reportPage/ReportList';
 import ReactPagination from '../../utility/ReactPagination';
 
 const ReportPage = () => {
+    // header
+    const header = useMemo(() => {
+        return {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(window.localStorage.getItem("token"))}`
+            }
+        };
+    }, []);
+
     const [ReportData, setReportData] = useState(null);
     const [pageNumber, setPageNumber] = useState(0);
 
@@ -29,6 +38,7 @@ const ReportPage = () => {
 
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/report/download-excel`, {
                 method: 'GET',
+                headers: header.headers
             });
 
             if (response.ok) {
@@ -57,8 +67,8 @@ const ReportPage = () => {
 
 
     useEffect(() => {
-        dispatch(getReportData());
-    }, [dispatch]);
+        dispatch(getReportData(header));
+    }, [dispatch, header]);
 
     useEffect(() => {
         setReportData(reportData);
