@@ -18,6 +18,8 @@ export const DOWNLOADPDF = (flag, header) => API.get(`/qrcode/pdf/${flag}`, head
 export const DASHBOARDDATA = (header) => API.get(`/dashboard/data`, header);
 // report data
 export const REPORTDATA = (header) => API.get(`/report/data`, header);
+// user report data
+export const USERREPORTDATA = (page, pageSize, header) => API.get(`/report/user/data`, header, { params: { page, pageSize } });
 // download report data
 export const DOWNLOADREPORTDATA = (header) => API.get(`/report/download-excel`, header);
 

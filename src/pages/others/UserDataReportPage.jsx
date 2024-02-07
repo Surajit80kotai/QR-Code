@@ -1,8 +1,35 @@
-import React from 'react'
-import ReactPagination from '../../utility/ReactPagination';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserReportData } from '../../services/slices/UtilitySlice';
+import UserReportList from '../../components/core/reportPage/UserReportList';
+import { Pagination } from 'react-bootstrap';
 
 const UserDataReportPage = () => {
+    // header
+    const header = useMemo(() => {
+        return {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(window.localStorage.getItem("token"))}`
+            }
+        };
+    }, []);
+
+    // State for current page
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 20;
+
+    const dispatch = useDispatch();
+    const { UserReportData } = useSelector(state => state.UtilitySlice);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    useEffect(() => {
+        dispatch(getUserReportData({ header, currentPage, pageSize }));
+    }, [dispatch, header, currentPage, pageSize]);
+
     return (
         <>
             <div className="container-fluid" id="container-wrapper">
@@ -40,16 +67,15 @@ const UserDataReportPage = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                            <td>N/A</td>
-                                        </tr>
+                                        {
+                                            UserReportData?.data?.length > 0 &&
+                                            UserReportData?.data?.map((item, index) => (
+                                                <UserReportList
+                                                    key={index}
+                                                    item={item}
+                                                />
+                                            ))
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -57,12 +83,25 @@ const UserDataReportPage = () => {
 
                         {/* Pagination */}
                         <div className="d-flex justify-content-start">
-                            <div className="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                                <ReactPagination
-                                // pageCount={pageCount}
-                                // changePage={changePage}
+                            <Pagination>
+                                <Pagination.Prev
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
                                 />
-                            </div>
+                                {UserReportData && Array.from({ length: UserReportData.pagination.totalPages }, (_, index) => (
+                                    <Pagination.Item
+                                        key={index}
+                                        active={index + 1 === currentPage}
+                                        onClick={() => handlePageChange(index + 1)}
+                                    >
+                                        {index + 1}
+                                    </Pagination.Item>
+                                ))}
+                                <Pagination.Next
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={UserReportData && currentPage === UserReportData.pagination.totalPages}
+                                />
+                            </Pagination>
                         </div>
                     </div>
                 </div>

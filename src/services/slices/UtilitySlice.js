@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CASHBACKBACKDATA, CREATEQRCODE, DASHBOARDDATA, DOWNLOADPDF, GETQRCODE, QRCODETAGS, REPORTDATA, STOREFEEDBACKDATA } from "../Api/ApiInstances";
+import { CASHBACKBACKDATA, CREATEQRCODE, DASHBOARDDATA, DOWNLOADPDF, GETQRCODE, QRCODETAGS, REPORTDATA, STOREFEEDBACKDATA, USERREPORTDATA } from "../Api/ApiInstances";
 import toast from "react-hot-toast";
 
 //AsyncThunk For cretae QR code 
@@ -145,6 +145,16 @@ export const getReportData = createAsyncThunk("/report/data", async (header, { r
     }
 });
 
+// AsyncThunk For get user report data
+export const getUserReportData = createAsyncThunk("/report/user/data", async ({ page, pageSize, header }, { rejectWithValue }) => {
+    try {
+        const result = await USERREPORTDATA(page, pageSize, header);
+        return result?.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
 
 
 
@@ -154,6 +164,7 @@ const UtilitySlice = createSlice({
     initialState: {
         dashboardData: null,
         reportData: null,
+        UserReportData: null,
         QRdata: null,
         data: null,
         feedbackData: null,
@@ -286,6 +297,22 @@ const UtilitySlice = createSlice({
             state.reportData = payload?.data;
         })
         builder.addCase(getReportData.rejected, (state, { payload }) => {
+            state.status = "Failed";
+            state.loading = false;
+            state.error = payload;
+        });
+
+        //States for getUserReportData
+        builder.addCase(getUserReportData.pending, (state, { payload }) => {
+            state.status = "Loading...";
+            state.loading = true;
+        })
+        builder.addCase(getUserReportData.fulfilled, (state, { payload }) => {
+            state.status = "Success";
+            state.loading = false;
+            state.UserReportData = payload;
+        })
+        builder.addCase(getUserReportData.rejected, (state, { payload }) => {
             state.status = "Failed";
             state.loading = false;
             state.error = payload;
