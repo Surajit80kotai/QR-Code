@@ -126,7 +126,7 @@ const AllQRCodes = () => {
     // };
 
     const handleDownloadPdf = () => {
-        dispatch(downloadPdf({ flag }));
+        dispatch(downloadPdf({ flag, header }));
     };
 
     // refresh function
