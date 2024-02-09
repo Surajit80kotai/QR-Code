@@ -103,6 +103,11 @@ const AllQRCodes = () => {
         }
     }
 
+    // reload page
+    const handleReloadClick = () => {
+        window.location.reload(); // Reload the page
+    };
+
     useEffect(() => {
         dispatch(getQRcode({ flag, page: currentPage, pageSize }));
     }, [dispatch, flag, currentPage, pageSize, header]);
@@ -135,20 +140,27 @@ const AllQRCodes = () => {
                                     <span className="text">{`${QRdata?.TOTAL_QRS_LENGTH} QR Generated Please Refresh`}</span>
                                 </Link>
                                 :
-                                QRdata?.isPDF ?
-                                    <Link to={`${process.env.REACT_APP_BASE_URL}/qrcode/download/${flag}.pdf`} className="btn btn-success btn-icon-split">
+                                QRdata?.isPDF === 'DONE' ?
+                                    <a href={`${process.env.REACT_APP_BASE_URL}/qrcode/download/${flag}.pdf`} className="btn btn-success btn-icon-split">
                                         <span className="icon text-white-50">
                                             <i className="fas fa-download"></i>
                                         </span>
                                         <span className="text">Download PDF</span>
-                                    </Link>
-                                    :
-                                    <Link to="#" onClick={handleDownloadPdf} className="btn btn-warning btn-icon-split">
-                                        <span className="icon text-white-50">
-                                            <i className="fas fa-upload"></i>
-                                        </span>
-                                        <span className="text">Generate PDF For Download</span>
-                                    </Link>
+                                    </a>
+                                    : QRdata?.isPDF === 'PENDING' ?
+                                        <Link to="#" onClick={handleReloadClick} className="btn btn-warning btn-icon-split">
+                                            <span className="icon text-white-50">
+                                                <i className="fas fa-upload"></i>
+                                            </span>
+                                            <span className="text">Please Wait....</span>
+                                        </Link>
+                                        :
+                                        <Link to="#" onClick={handleDownloadPdf} className="btn btn-warning btn-icon-split">
+                                            <span className="icon text-white-50">
+                                                <i className="fas fa-upload"></i>
+                                            </span>
+                                            <span className="text">Generate PDF For Download</span>
+                                        </Link>
                         }
                     </div>
 
