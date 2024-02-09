@@ -136,12 +136,12 @@ const AllQRCodes = () => {
                                 </Link>
                                 :
                                 QRdata?.isPDF ?
-                                    <Link to={`${process.env.REACT_APP_BASE_URL}/qrcode/download/${flag}.pdf`} className="btn btn-success btn-icon-split">
+                                    <a href={`${process.env.REACT_APP_BASE_URL}/qrcode/download/${flag}.pdf`} className="btn btn-success btn-icon-split">
                                         <span className="icon text-white-50">
                                             <i className="fas fa-download"></i>
                                         </span>
                                         <span className="text">Download PDF</span>
-                                    </Link>
+                                    </a>
                                     :
                                     <Link to="#" onClick={handleDownloadPdf} className="btn btn-warning btn-icon-split">
                                         <span className="icon text-white-50">
