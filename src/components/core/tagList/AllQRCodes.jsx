@@ -140,13 +140,18 @@ const AllQRCodes = () => {
                                     <span className="text">{`${QRdata?.TOTAL_QRS_LENGTH} QR Generated Please Refresh`}</span>
                                 </Link>
                                 :
+<<<<<<< HEAD
                                 QRdata?.isPDF === 'DONE' ?
+=======
+                                QRdata?.isPDF ?
+>>>>>>> 9795d4824c77471327a26eaebffc94d9a471ae2f
                                     <a href={`${process.env.REACT_APP_BASE_URL}/qrcode/download/${flag}.pdf`} className="btn btn-success btn-icon-split">
                                         <span className="icon text-white-50">
                                             <i className="fas fa-download"></i>
                                         </span>
                                         <span className="text">Download PDF</span>
                                     </a>
+<<<<<<< HEAD
                                     : QRdata?.isPDF === 'PENDING' ?
                                         <Link to="#" onClick={handleReloadClick} className="btn btn-warning btn-icon-split">
                                             <span className="icon text-white-50">
@@ -161,6 +166,15 @@ const AllQRCodes = () => {
                                             </span>
                                             <span className="text">Generate PDF For Download</span>
                                         </Link>
+=======
+                                    :
+                                    <Link to="#" onClick={handleDownloadPdf} className="btn btn-warning btn-icon-split">
+                                        <span className="icon text-white-50">
+                                            <i className="fas fa-upload"></i>
+                                        </span>
+                                        <span className="text">Generate PDF For Download</span>
+                                    </Link>
+>>>>>>> 9795d4824c77471327a26eaebffc94d9a471ae2f
                         }
                     </div>
 
