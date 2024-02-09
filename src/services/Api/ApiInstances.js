@@ -11,7 +11,7 @@ export const CREATEQRCODE = (data, header) => API.post('/qrcode/create', data, h
 // get QRcode tags
 export const QRCODETAGS = (header) => API.get('/qrcode/tags', header);
 // get QRcode
-export const GETQRCODE = (flag, page, pageSize, header) => API.get(`/qrcode/get/${flag}`, header, { params: { page, pageSize } });
+export const GETQRCODE = (flag, page, pageSize) => API.get(`/qrcode/get/${flag}`, { params: { page, pageSize } });
 // get download Pdf
 export const DOWNLOADPDF = (flag, header) => API.get(`/qrcode/pdf/${flag}`, header);
 // dashboard data

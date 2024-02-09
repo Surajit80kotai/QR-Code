@@ -132,12 +132,12 @@ const AllQRCodes = () => {
     // refresh function
     const handlePageRefresh = () => {
         if (QRdata?.TOTAL_QRS_LENGTH !== QRdata?.TAG_DATA_COUNT) {
-            dispatch(getQRcode({ flag, page: currentPage, pageSize, header }));
+            dispatch(getQRcode({ flag, page: currentPage, pageSize }));
         }
     }
 
     useEffect(() => {
-        dispatch(getQRcode({ flag, page: currentPage, pageSize, header }));
+        dispatch(getQRcode({ flag, page: currentPage, pageSize }));
     }, [dispatch, flag, currentPage, pageSize, header]);
 
     useEffect(() => {

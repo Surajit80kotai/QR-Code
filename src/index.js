@@ -15,6 +15,7 @@ import ThankYou from './pages/others/ThankYou';
 import Expired from './pages/others/Expired';
 import CongratsPage from './pages/others/CongratsPage';
 import ParticipationThankYou from './pages/others/ParticipationThankYou';
+import AccessError from './pages/others/AccessError';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -32,6 +33,7 @@ root.render(
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/expired`} element={<Expired />} />
         <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/login`} element={<Login />} />
         {/* <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/admin/register`} element={<Register />} /> */}
+        <Route path={`${process.env.REACT_APP_BASE_URL_PREFIX}/access/error`} element={<AccessError />} />
       </Routes>
     </Router>
     <Toaster

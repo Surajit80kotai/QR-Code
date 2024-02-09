@@ -37,9 +37,9 @@ export const getQRcodeTags = createAsyncThunk("/qrcode/tags", async (header, { r
 });
 
 // AsyncThunk For get QRcode
-export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag, page, pageSize, header }, { rejectWithValue }) => {
+export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag, page, pageSize }, { rejectWithValue }) => {
     try {
-        const result = await GETQRCODE(flag, page, pageSize, header);
+        const result = await GETQRCODE(flag, page, pageSize);
         return result?.data;
     } catch (err) {
         return rejectWithValue(err.response.data);

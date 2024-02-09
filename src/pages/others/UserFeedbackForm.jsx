@@ -5,6 +5,7 @@ import { clearFeedbackData, storeFeedbackData } from '../../services/slices/Util
 import AllPageLoader from '../../utility/AllPageLoader';
 import { useFormik } from 'formik';
 import { feedbackFormValidationSchema } from '../../helper/FormValidation';
+import StarRatings from 'react-star-ratings';
 
 const UserFeedbackForm = () => {
     const AVTIVE_WEB_URL = process.env.REACT_APP_BASE_URL_PREFIX;
@@ -58,6 +59,7 @@ const UserFeedbackForm = () => {
                     }
 
                     values.location = locationData;
+                    // console.log({ values });
                     dispatch(storeFeedbackData({ data: values, navigate, uuid }));
                 } catch (error) {
                     console.error('Error getting location data:', error);
@@ -361,33 +363,6 @@ const UserFeedbackForm = () => {
                                     </div>
                                 )}
 
-                                {/* Quality rating */}
-                                <div className="col-md-6">
-                                    <div className="mb-3">
-                                        <label htmlFor="Quality_Rating" className="form-label">
-                                            How would you rate the quality of the Bharat products you purchased? <span className="text-danger">*</span>
-                                        </label>
-                                        <select
-                                            className="form-control"
-                                            id="Quality_Rating"
-                                            name="Quality_Rating"
-                                            value={values?.Quality_Rating}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            style={{ border: errors.Quality_Rating && touched.Quality_Rating ? '1px solid red' : null }}
-                                        >
-                                            <option value="" label="Select quality rating" />
-                                            <option value="Excellent">Excellent</option>
-                                            <option value="Good">Good</option>
-                                            <option value="Average">Average</option>
-                                            <option value="Poor">Poor</option>
-                                        </select>
-                                        {errors.Quality_Rating && touched.Quality_Rating && (
-                                            <small className="form-text text-danger">*{errors.Quality_Rating}</small>
-                                        )}
-                                    </div>
-                                </div>
-
                                 {/* Future purchases */}
                                 <div className="col-md-6">
                                     <div className="mb-3">
@@ -409,6 +384,46 @@ const UserFeedbackForm = () => {
                                         </select>
                                         {errors.Future_Purchases && touched.Future_Purchases && (
                                             <small className="form-text text-danger">*{errors.Future_Purchases}</small>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Quality rating */}
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label htmlFor="Quality_Rating" className="form-label">
+                                            How would you rate the quality of the Bharat products you purchased? <span className="text-danger">*</span>
+                                        </label>
+                                        {/* <select
+                                            className="form-control"
+                                            id="Quality_Rating"
+                                            name="Quality_Rating"
+                                            value={values?.Quality_Rating}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            style={{ border: errors.Quality_Rating && touched.Quality_Rating ? '1px solid red' : null }}
+                                        >
+                                            <option value="" label="Select quality rating" />
+                                            <option value="Excellent">Excellent</option>
+                                            <option value="Good">Good</option>
+                                            <option value="Average">Average</option>
+                                            <option value="Poor">Poor</option>
+                                        </select> */}
+                                        <StarRatings
+                                            rating={values && values.Quality_Rating ? parseFloat(values.Quality_Rating) : 0}
+                                            starRatedColor="#ffd700" /* Set the rated star color as transparent */
+                                            starEmptyColor="#cbd3e3" /* Set the empty star color as transparent */
+                                            starHoverColor="rgb(230,67,47)" /* Set the hover color */
+                                            changeRating={(newRating) => setFieldValue('Quality_Rating', newRating.toString())}
+                                            numberOfStars={5}
+                                            name='Quality_Rating'
+                                            starDimension="28px" /* Adjust the size of the stars */
+                                            starSpacing="5px" /* Adjust the spacing between stars */
+                                            starRatedClassName="custom-star" /* Apply custom class to rated stars */
+                                            starEmptyClassName="custom-star-outline" /* Apply custom class to empty stars */
+                                        />
+                                        {errors.Quality_Rating && touched.Quality_Rating && (
+                                            <small className="form-text text-danger">*{errors.Quality_Rating}</small>
                                         )}
                                     </div>
                                 </div>

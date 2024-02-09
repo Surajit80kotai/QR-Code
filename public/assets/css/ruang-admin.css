@@ -2129,3 +2129,17 @@ body.sidebar-toggled footer.sticky-footer {
   color: #fff;
 
 }
+
+/* Custom star style */
+.custom-star {
+  display: inline-block;
+  font-size: 1.5em;
+  color: #ffd700;
+}
+
+/* Custom star outline style */
+.custom-star-outline {
+  display: inline-block;
+  font-size: 1.5em;
+  color: #ccc;
+}

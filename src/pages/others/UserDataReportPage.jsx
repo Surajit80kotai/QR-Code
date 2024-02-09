@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserReportData } from '../../services/slices/UtilitySlice';
 import UserReportList from '../../components/core/reportPage/UserReportList';
-import { Pagination } from 'react-bootstrap';
+import ReactPagination from '../../utility/ReactPagination';
 
 const UserDataReportPage = () => {
     // header
@@ -16,19 +16,26 @@ const UserDataReportPage = () => {
     }, []);
 
     // State for current page
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 20;
+    const [pageNumber, setPageNumber] = useState(0);
 
     const dispatch = useDispatch();
     const { UserReportData } = useSelector(state => state.UtilitySlice);
 
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
+    // pagination
+    const dataPerPage = process.env.REACT_APP_PAGE_SIZE;
+    const pagesVisited = pageNumber * dataPerPage;
+    const newTagData = UserReportData?.data?.slice(pagesVisited, pagesVisited + dataPerPage);
+    const pageCount = Math.ceil((UserReportData?.data?.length || 0) / dataPerPage);
+
+
+    const changePage = (newData) => {
+        setPageNumber(newData?.selected)
+    }
+
 
     useEffect(() => {
-        dispatch(getUserReportData({ header, currentPage, pageSize }));
-    }, [dispatch, header, currentPage, pageSize]);
+        dispatch(getUserReportData({ header, pageNumber, dataPerPage }));
+    }, [dispatch, header, pageNumber, dataPerPage]);
 
     return (
         <>
@@ -68,8 +75,8 @@ const UserDataReportPage = () => {
                                     </thead>
                                     <tbody>
                                         {
-                                            UserReportData?.data?.length > 0 &&
-                                            UserReportData?.data?.map((item, index) => (
+                                            newTagData?.length > 0 &&
+                                            newTagData?.map((item, index) => (
                                                 <UserReportList
                                                     key={index}
                                                     item={item}
@@ -82,26 +89,13 @@ const UserDataReportPage = () => {
                         </div>
 
                         {/* Pagination */}
-                        <div className="d-flex justify-content-start">
-                            <Pagination>
-                                <Pagination.Prev
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
+                        <div className="d-flex justify-content-start mb-3">
+                            <div className="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                <ReactPagination
+                                    pageCount={pageCount}
+                                    changePage={changePage}
                                 />
-                                {UserReportData && Array.from({ length: UserReportData.pagination.totalPages }, (_, index) => (
-                                    <Pagination.Item
-                                        key={index}
-                                        active={index + 1 === currentPage}
-                                        onClick={() => handlePageChange(index + 1)}
-                                    >
-                                        {index + 1}
-                                    </Pagination.Item>
-                                ))}
-                                <Pagination.Next
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={UserReportData && currentPage === UserReportData.pagination.totalPages}
-                                />
-                            </Pagination>
+                            </div>
                         </div>
                     </div>
                 </div>

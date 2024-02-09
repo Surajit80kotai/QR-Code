@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
-
+import { DcryptData } from '../../helper/EncryptDcrypt ';
 
 const SideNavbar = () => {
     const AVTIVE_WEB_URL = process.env.REACT_APP_BASE_URL_PREFIX;
+
+    // user
+    const user = DcryptData(window.localStorage.getItem('user'));
 
     const [activeLink, setActiveLink] = useState('');
     const [isHamburgerActive, setIsHamburgerActive] = useState(false);
@@ -15,7 +18,8 @@ const SideNavbar = () => {
         setIsHamburgerActive(!isHamburgerActive);
     };
 
-    const links = [
+    // Define links arrays
+    const SuperAdminLinks = [
         {
             id: 'dashboard',
             text: 'Dashboard',
@@ -48,9 +52,33 @@ const SideNavbar = () => {
         },
     ];
 
+    const AdminLinks = [
+        {
+            id: 'dashboard',
+            text: 'Dashboard',
+            icon: 'fas fa-fw fa-tachometer-alt',
+            to: `${process.env.REACT_APP_BASE_URL_PREFIX}/dashboard`,
+        },
+        {
+            id: 'cashback_report',
+            text: 'Cashback Report',
+            icon: 'fas fa-file-alt',
+            to: `${process.env.REACT_APP_BASE_URL_PREFIX}/cashback/report`,
+        },
+        {
+            id: 'user_data_report',
+            text: 'User Data Report',
+            icon: 'far fa-address-card',
+            to: `${process.env.REACT_APP_BASE_URL_PREFIX}/user/data/report`,
+        },
+    ];
+
+    const links = user?.type === 'su-admin' ? SuperAdminLinks : AdminLinks;
+
     const handleLinkClick = (linkId) => {
         setActiveLink(linkId);
     };
+
 
     return (
         <>
