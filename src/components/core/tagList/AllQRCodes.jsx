@@ -27,7 +27,7 @@ const AllQRCodes = () => {
     const { flag } = useParams();
     const dispatch = useDispatch();
     const { QRdata } = useSelector(state => state.UtilitySlice);
-    // console.log(QRdata);
+    console.log(QRdata);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -92,39 +92,6 @@ const AllQRCodes = () => {
         return items;
     };
 
-    // function for download pdf
-    // const handleDownloadPdf = async () => {
-    //     try {
-    //         dispatch(setDownloading(true)); // Set the state to indicate that download is in progress
-
-    //         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/qrcode/pdf/${flag}`, {
-    //             method: 'GET',
-    //         });
-
-    //         if (response.ok) {
-    //             const blob = await response.blob();
-
-    //             const url = window.URL.createObjectURL(blob);
-    //             const a = document.createElement('a');
-    //             a.href = url;
-    //             a.download = flag + '.pdf';
-
-    //             document.body.appendChild(a);
-    //             a.click();
-
-    //             document.body.removeChild(a);
-    //         } else {
-    //             console.error('Download failed:', response.statusText);
-    //             dispatch(setDownloadError('Download failed: ' + response.statusText));
-    //         }
-    //     } catch (error) {
-    //         console.error('Error:', error.message);
-    //         dispatch(setDownloadError('Error: ' + error.message));
-    //     } finally {
-    //         dispatch(setDownloading(false)); // Set the state to indicate that download is complete (whether successful or not)
-    //     }
-    // };
-
     const handleDownloadPdf = () => {
         dispatch(downloadPdf({ flag, header }));
     };
@@ -161,19 +128,27 @@ const AllQRCodes = () => {
                     <div>
                         {
                             toogleButton ?
-                                <Link to="#" onClick={handlePageRefresh} className="btn btn-info btn-icon-split">
+                                <Link to="#" onClick={handlePageRefresh} className="btn btn-primary btn-icon-split">
                                     <span className="icon text-white-50">
                                         <i className="fas fa-sync-alt"></i>
                                     </span>
                                     <span className="text">{`${QRdata?.TOTAL_QRS_LENGTH} QR Generated Please Refresh`}</span>
                                 </Link>
                                 :
-                                <Link to="#" onClick={handleDownloadPdf} className="btn btn-primary btn-icon-split">
-                                    <span className="icon text-white-50">
-                                        <i className="fas fa-download"></i>
-                                    </span>
-                                    <span className="text">Email PDF To Download</span>
-                                </Link>
+                                QRdata?.isPDF ?
+                                    <Link to={`${process.env.REACT_APP_BASE_URL}/qrcode/download/${flag}.pdf`} className="btn btn-success btn-icon-split">
+                                        <span className="icon text-white-50">
+                                            <i className="fas fa-download"></i>
+                                        </span>
+                                        <span className="text">Download PDF</span>
+                                    </Link>
+                                    :
+                                    <Link to="#" onClick={handleDownloadPdf} className="btn btn-warning btn-icon-split">
+                                        <span className="icon text-white-50">
+                                            <i className="fas fa-upload"></i>
+                                        </span>
+                                        <span className="text">Generate PDF For Download</span>
+                                    </Link>
                         }
                     </div>
 
