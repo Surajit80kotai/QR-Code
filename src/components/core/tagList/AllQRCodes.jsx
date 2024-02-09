@@ -27,7 +27,7 @@ const AllQRCodes = () => {
     const { flag } = useParams();
     const dispatch = useDispatch();
     const { QRdata } = useSelector(state => state.UtilitySlice);
-    console.log(QRdata);
+    // console.log(QRdata);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -93,7 +93,7 @@ const AllQRCodes = () => {
     };
 
     const handleDownloadPdf = () => {
-        dispatch(downloadPdf({ flag, header }));
+        dispatch(downloadPdf({ flag, page: currentPage, pageSize, header }));
     };
 
     // refresh function

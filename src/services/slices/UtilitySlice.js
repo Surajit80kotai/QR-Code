@@ -47,10 +47,11 @@ export const getQRcode = createAsyncThunk("/qrcode/get/", async ({ flag, page, p
 });
 
 // AsyncThunk For downloadPdf
-export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag, header }, { rejectWithValue }) => {
+export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag, page, pageSize, header }, { dispatch, rejectWithValue }) => {
     try {
         const response = await DOWNLOADPDF(flag, header);
         if (response?.statusText === "OK") {
+            dispatch(getQRcode({ flag, page, pageSize }));
             toast.success(response?.data?.message, {
                 style: {
                     background: "black",
@@ -62,8 +63,8 @@ export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag, heade
                 },
             });
         }
-    } catch (error) {
-        throw new Error(`Error: ${error.message}`);
+    } catch (err) {
+        return rejectWithValue(err.response.data);
     }
 });
 

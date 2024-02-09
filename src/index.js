@@ -39,7 +39,7 @@ root.render(
     <Toaster
       position="top-center"
       reverseOrder={false}
-      gutter={100}
+      gutter={10}
     />
   </Provider>
 );
