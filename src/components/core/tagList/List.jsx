@@ -26,7 +26,7 @@ const List = ({ item, index }) => {
                 </th>
                 <th>
                     <span className="badge badge-warning">
-                        <Link to={`${process.env.REACT_APP_BASE_URL_PREFIX}/codes/${item?.name}`} className="text-white">N/A</Link>
+                        <Link to={`${process.env.REACT_APP_BASE_URL_PREFIX}/codes/${item?.name}`} className="text-white">{item?.cashback_lucky_users}</Link>
                     </span>
                 </th>
                 <th>

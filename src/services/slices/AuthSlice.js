@@ -44,8 +44,8 @@ export const UserLogin = createAsyncThunk("/auth/admin/login", async ({ data, na
                     color: "white",
                 },
                 iconTheme: {
-                    primary: '#FFF',
-                    secondary: 'red',
+                    primary: 'red',
+                    secondary: '#fff',
                 },
             });
         }
@@ -88,8 +88,8 @@ export const UserSignup = createAsyncThunk("/auth/admin/registration", async ({ 
                     color: "white",
                 },
                 iconTheme: {
-                    primary: '#FFF',
-                    secondary: 'red',
+                    primary: 'red',
+                    secondary: '#fff',
                 },
             });
         }

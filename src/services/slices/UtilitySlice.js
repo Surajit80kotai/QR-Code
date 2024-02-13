@@ -22,6 +22,17 @@ export const createQRcode = createAsyncThunk("/qrcode/create", async ({ data, na
         }
         return result?.data;
     } catch (err) {
+        toast.error((err.response.data.error).toUpperCase(), {
+            duration: 3000,
+            style: {
+                background: "black",
+                color: "white",
+            },
+            iconTheme: {
+                primary: 'red',
+                secondary: '#fff',
+            },
+        });
         return rejectWithValue(err.response.data);
     }
 });
@@ -58,8 +69,8 @@ export const downloadPdf = createAsyncThunk('/qrcode/pdf/', async ({ flag, page,
                     color: "white",
                 },
                 iconTheme: {
-                    primary: '#FFF',
-                    secondary: 'green',
+                    primary: 'red',
+                    secondary: '#fff',
                 },
             });
         }
@@ -91,8 +102,8 @@ export const storeFeedbackData = createAsyncThunk('/sl/sm/', async ({ data, navi
                     color: "white",
                 },
                 iconTheme: {
-                    primary: '#FFF',
-                    secondary: 'red',
+                    primary: 'red',
+                    secondary: '#fff',
                 },
             });
         }
@@ -117,8 +128,8 @@ export const getCashback = createAsyncThunk('/sl/sm/cashback/form', async ({ dat
                     color: "white",
                 },
                 iconTheme: {
-                    primary: '#FFF',
-                    secondary: 'red',
+                    primary: 'red',
+                    secondary: '#fff',
                 },
             });
         }

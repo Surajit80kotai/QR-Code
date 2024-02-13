@@ -150,7 +150,7 @@ const AllQRCodes = () => {
                                     : QRdata?.isPDF === 'PENDING' ?
                                         <Link to="#" onClick={handleReloadClick} className="btn btn-warning btn-icon-split">
                                             <span className="icon text-white-50">
-                                                <i className="fas fa-upload"></i>
+                                                <i className="fas fa-sync-alt"></i>
                                             </span>
                                             <span className="text">Please Wait....</span>
                                         </Link>
